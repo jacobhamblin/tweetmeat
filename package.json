@@ -1,0 +1,20 @@
+{
+  "name": "tweetmeat69",
+  "version": "1.0.0",
+  "description": "meat of the tweets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "author": "jacob hamblin",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "cowsay": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "twitter": "^1.7.1"
+  }
+}
