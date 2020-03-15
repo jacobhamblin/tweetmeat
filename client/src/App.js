@@ -10,10 +10,8 @@ class App extends Component {
     this.fetchCow()
   }
   fetchCow = async () => {
-    const response = await fetch(`/api/tweets`)
-    
+    const response = await fetch(`/api/moo`)
     const initialCow = await response.json()
-    console.log(initialCow)
     const cow = initialCow.moo
     this.setState({ cow })
   }
