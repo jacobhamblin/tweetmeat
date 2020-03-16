@@ -7,32 +7,19 @@ class App extends Component {
     tweets: [],
   }
   componentDidMount() {
-    this.fetchDefaultTweets()
-  }
-  fetchDefaultTweets = async () => {
-    console.log('fetch Tweets')
-    return
-    const response = await fetch(`/api/moo`)
-    const initialCow = await response.json()
-    const cow = initialCow.moo
-    this.setState({ cow })
+    this.fetchTweets()
   }
   fetchTweets = async event => {
-    event.preventDefault()
+    if (event) event.preventDefault()
     const { query } = this.state
-    const response = await fetch(`/api/tweets?q=${query}`)
+    const url = query
+      ? `/api/tweets?q=${query}`
+      : '/api/tweets'
+    const response = await fetch(url)
     const tweets = await response.json()
     console.log('fetched tweets')
     console.log(tweets.statuses)
     this.setState({ tweets: tweets.statuses, })
-  }
-  customCow = async event => {
-    event.preventDefault()
-    const { text } = this.state
-    const response = await fetch(`/api/cow/${text}`)
-    const custom = await response.json()
-    const cow = custom.moo
-    this.setState({ cow, text: '' })
   }
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value })

@@ -41,13 +41,24 @@ app.get('/api/cow/', cors(), async (req, res, next) => {
 app.get('/api/tweets/', cors(), async (req, res, next) => {
   const query = req.query.q;
 
-  try {
-    Twitter.get('search/tweets', {q: query || 'covid-19'}, (error, tweets, response) => {
-      res.json(tweets);
-    });
-  } catch (err) {
-    next(err)
+  if (query) {
+    try {
+      Twitter.get('search/tweets', {q: query}, (error, tweets, response) => {
+        res.json(tweets);
+      });
+    } catch (err) {
+      next(err)
+    }
+  } else {
+    try {
+      Twitter.get('statuses/sample', {q: query}, (error, tweets, response) => {
+        res.json(tweets);
+      });
+    } catch (err) {
+      next(err)
+    }
   }
+
 })
 
 // Anything that doesn't match the above, send back index.html
