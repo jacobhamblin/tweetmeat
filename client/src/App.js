@@ -1,47 +1,39 @@
-import React, { Component } from 'react'
-import './App.css'
+import React, { Component } from 'react';
+import './App.css';
 
 class App extends Component {
   state = {
     query: '',
     tweets: [],
-  }
+  };
   componentDidMount() {
-    this.fetchTweets()
+    this.fetchTweets();
   }
   fetchTweets = async event => {
-    if (event) event.preventDefault()
-    const { query } = this.state
-    const url = query
-      ? `/api/tweets?q=${query}`
-      : '/api/tweets'
-    const response = await fetch(url)
-    const tweets = await response.json()
-    console.log('fetched tweets')
-    console.log(tweets.statuses)
-    this.setState({ tweets: tweets.statuses, })
-  }
+    if (event) event.preventDefault();
+    const { query } = this.state;
+    const url = query ? `/api/tweets?q=${query}` : '/api/tweets';
+    const response = await fetch(url);
+    const tweets = await response.json();
+    this.setState({ tweets: tweets.statuses });
+  };
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
-    console.log(this.state.query)
-  }
+    this.setState({ [event.target.name]: event.target.value });
+  };
   renderTweets = () => {
     const { tweets } = this.state;
-    console.log(tweets)
     if (!tweets || !tweets.length) return;
     let renderedTweets = [];
     tweets.forEach(tweet => {
-      renderedTweets.push(
-        <div class='tweet'>{tweet.text}</div>
-      )
-    })
+      renderedTweets.push(<div class="tweet">{tweet.text}</div>);
+    });
     return (
       <div>
         <h1>tweets</h1>
         {renderedTweets}
       </div>
-    )
-  }
+    );
+  };
   render() {
     return (
       <div className="App">
@@ -58,7 +50,7 @@ class App extends Component {
 
         {this.renderTweets()}
       </div>
-    )
+    );
   }
 }
-export default App
+export default App;

@@ -1,73 +1,56 @@
-const express = require('express')
-const cowsay = require('cowsay')
-const cors = require('cors')
-const path = require('path')
+const express = require('express');
+const cowsay = require('cowsay');
+const cors = require('cors');
+const path = require('path');
 
 require('dotenv').config();
 
 const Twitter = new require('twitter')({
-  'consumer_key': process.env.TwitterAPIKey,
-  'consumer_secret': process.env.TwitterAPIKeySecret,
-  'access_token_key': process.env.TwitterUserAccessToken,
-  'access_token_secret': process.env.TwitterUserAccessTokenSecret,
+  consumer_key: process.env.TwitterAPIKey,
+  consumer_secret: process.env.TwitterAPIKeySecret,
+  access_token_key: process.env.TwitterUserAccessToken,
+  access_token_secret: process.env.TwitterUserAccessTokenSecret,
 });
 
 // Create the server
-const app = express()
+const app = express();
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'client/build')))
-
-// Serve our api route /cow that returns a custom talking text cow
-app.get('/api/cow/:say', cors(), async (req, res, next) => {
-  try {
-    const text = req.params.say
-    const moo = cowsay.say({ text })
-    res.json({ moo })
-  } catch (err) {
-    next(err)
-  }
-})
-// Serve our base route that returns a Hello World cow
-app.get('/api/cow/', cors(), async (req, res, next) => {
-  try {
-    const moo = cowsay.say({ text: 'Hello World!' })
-    res.json({ moo })
-  } catch (err) {
-    next(err)
-  }
-})
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/api/tweets/', cors(), async (req, res, next) => {
   const query = req.query.q;
 
   if (query) {
     try {
-      Twitter.get('search/tweets', {q: query}, (error, tweets, response) => {
+      Twitter.get('search/tweets', { q: query }, (error, tweets, response) => {
         res.json(tweets);
       });
     } catch (err) {
-      next(err)
+      next(err);
     }
   } else {
     try {
-      Twitter.get('statuses/sample', {q: query}, (error, tweets, response) => {
-        res.json(tweets);
-      });
+      Twitter.get(
+        'statuses/sample',
+        { q: query },
+        (error, tweets, response) => {
+          res.json(tweets);
+        },
+      );
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
-
-})
+});
 
 // Anything that doesn't match the above, send back index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'))
-})
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 // Choose the port and start the server
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Mixing it up on port ${PORT}`)
-})
+  console.log(`Watching port ${PORT}`);
+});
