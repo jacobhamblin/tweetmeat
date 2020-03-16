@@ -3,45 +3,73 @@ import './App.css'
 
 class App extends Component {
   state = {
-    cow: '',
-    text: ''
+    query: '',
+    tweets: [],
   }
   componentDidMount() {
-    this.fetchCow()
+    this.fetchDefaultTweets()
   }
-  fetchCow = async () => {
+  fetchDefaultTweets = async () => {
+    console.log('fetch Tweets')
+    return
     const response = await fetch(`/api/moo`)
     const initialCow = await response.json()
     const cow = initialCow.moo
     this.setState({ cow })
   }
-  customCow = async evt => {
-    evt.preventDefault()
-    const text = this.state.text
+  fetchTweets = async event => {
+    event.preventDefault()
+    const { query } = this.state
+    const response = await fetch(`/api/tweets?q=${query}`)
+    const tweets = await response.json()
+    console.log('fetched tweets')
+    console.log(tweets.statuses)
+    this.setState({ tweets: tweets.statuses, })
+  }
+  customCow = async event => {
+    event.preventDefault()
+    const { text } = this.state
     const response = await fetch(`/api/cow/${text}`)
     const custom = await response.json()
     const cow = custom.moo
     this.setState({ cow, text: '' })
   }
-  handleChange = evt => {
-    this.setState({ [evt.target.name]: evt.target.value })
-    console.log(this.state.text)
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value })
+    console.log(this.state.query)
+  }
+  renderTweets = () => {
+    const { tweets } = this.state;
+    console.log(tweets)
+    if (!tweets || !tweets.length) return;
+    let renderedTweets = [];
+    tweets.forEach(tweet => {
+      renderedTweets.push(
+        <div class='tweet'>{tweet.text}</div>
+      )
+    })
+    return (
+      <div>
+        <h1>tweets</h1>
+        {renderedTweets}
+      </div>
+    )
   }
   render() {
     return (
       <div className="App">
-        <h3>Text Cow. Moo</h3>
-        <code>{this.state.cow}</code>
-        <form onSubmit={this.customCow}>
-          <label>Custom Cow Text:</label>
+        <form onSubmit={this.fetchTweets}>
+          <label>Query</label>
           <input
             type="text"
-            name="text"
-            value={this.state.text}
+            name="query"
+            value={this.state.query}
             onChange={this.handleChange}
           />
-          <button type="submit">Show me a talking cow!</button>
+          <button type="submit">Submit</button>
         </form>
+
+        {this.renderTweets()}
       </div>
     )
   }
