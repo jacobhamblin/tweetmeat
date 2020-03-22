@@ -35,6 +35,12 @@ module.exports = (app, passport, pool) => {
     }),
   );
 
+  const isDevMode = process.env.NODE_ENV === 'development';
+
+  if (!isDevMode) {
+    app.set('trust proxy', 1);
+  }
+
   app.use(cookieParser(process.env.SESSION_SECRET));
   app.use(
     session({
@@ -43,7 +49,12 @@ module.exports = (app, passport, pool) => {
       }),
       secret: process.env.SESSION_SECRET,
       resave: false,
-      cookie: { maxAge: 14 * 24 * 60 * 60 * 1000 },
+      cookie: {
+        maxAge: 14 * 24 * 60 * 60 * 1000,
+        sameSite: true,
+        httpOnly: true,
+        secure: !isDevMode,
+      },
     }),
   );
 
