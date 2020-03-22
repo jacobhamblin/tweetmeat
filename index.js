@@ -1,60 +1,24 @@
 const express = require('express');
-const cowsay = require('cowsay');
-const cors = require('cors');
-const path = require('path');
+const passport = require('passport');
+const db = require('./db');
 
-require('dotenv').config();
-
-const Twitter = new require('twitter')({
-  consumer_key: process.env.TwitterAPIKey,
-  consumer_secret: process.env.TwitterAPIKeySecret,
-  access_token_key: process.env.TwitterUserAccessToken,
-  access_token_secret: process.env.TwitterUserAccessTokenSecret,
-});
-
-// Create the server
+const port = process.env.PORT || 5000;
 const app = express();
 
-// Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'client/build')));
+require('./config/passport')(passport, db);
+require('./config/express')(app, passport, db.pool);
+require('./config/routes')(app, passport, db);
 
-app.get('/api/tweets/', cors(), async (req, res, next) => {
-  const query = req.query.q;
+const server = app.listen(port, () => {
+  if (app.get('env') === 'test') return;
 
-  if (query) {
-    const params = {
-      q: query,
-      response_type: 'popular',
-    }
-    try {
-      Twitter.get('search/tweets', params, (error, tweets, response) => {
-        res.json(tweets);
-      });
-    } catch (err) {
-      next(err);
-    }
-  } else {
-    try {
-      Twitter.get('statuses/sample', (error, tweets, response) => {
-        console.log('server, callback')
-        console.log(tweets)
-        res.json(tweets);
-      });
-    } catch (err) {
-      console.log('server, error')
-      console.log(err)
-      next(err);
-    }
-  }
+  console.log('Express app started on port ' + port);
 });
 
-// Anything that doesn't match the above, send back index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+server.on('close', () => {
+  console.log('Closed express server');
 
-// Choose the port and start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Watching port ${PORT}`);
+  db.pool.end(() => {
+    console.log('Shut down connection pool');
+  });
 });
