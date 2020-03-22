@@ -22,8 +22,12 @@ app.get('/api/tweets/', cors(), async (req, res, next) => {
   const query = req.query.q;
 
   if (query) {
+    const params = {
+      q: query,
+      response_type: 'popular',
+    }
     try {
-      Twitter.get('search/tweets', { q: query }, (error, tweets, response) => {
+      Twitter.get('search/tweets', params, (error, tweets, response) => {
         res.json(tweets);
       });
     } catch (err) {
@@ -31,14 +35,14 @@ app.get('/api/tweets/', cors(), async (req, res, next) => {
     }
   } else {
     try {
-      Twitter.get(
-        'statuses/sample',
-        { q: query },
-        (error, tweets, response) => {
-          res.json(tweets);
-        },
-      );
+      Twitter.get('statuses/sample', (error, tweets, response) => {
+        console.log('server, callback')
+        console.log(tweets)
+        res.json(tweets);
+      });
     } catch (err) {
+      console.log('server, error')
+      console.log(err)
       next(err);
     }
   }

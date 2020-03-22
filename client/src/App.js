@@ -7,6 +7,7 @@ class App extends Component {
     tweets: [],
   };
   componentDidMount() {
+    console.log('fetching tweets')
     this.fetchTweets();
   }
   fetchTweets = async event => {
@@ -15,6 +16,8 @@ class App extends Component {
     const url = query ? `/api/tweets?q=${query}` : '/api/tweets';
     const response = await fetch(url);
     const tweets = await response.json();
+    console.log('tweets')
+    console.log(tweets)
     this.setState({ tweets: tweets.statuses });
   };
   handleChange = event => {
@@ -25,7 +28,7 @@ class App extends Component {
     if (!tweets || !tweets.length) return;
     let renderedTweets = [];
     tweets.forEach(tweet => {
-      renderedTweets.push(<div class="tweet">{tweet.text}</div>);
+      renderedTweets.push(<div className="tweet">{tweet.text}</div>);
     });
     return (
       <div>
