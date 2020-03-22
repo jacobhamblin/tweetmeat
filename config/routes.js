@@ -6,9 +6,6 @@ const users = require('../users');
 const Twitter = require('./twitter');
 
 module.exports = (app, passport, db) => {
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../client/build/index.html'));
-  });
   app.post('/api/login', passport.authenticate('local'), users.login);
   app.post(
     '/api/user',
@@ -46,6 +43,9 @@ module.exports = (app, passport, db) => {
         next(err);
       }
     }
+  });
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../client/build/index.html'));
   });
 
   app.use(function(err, req, res, next) {
