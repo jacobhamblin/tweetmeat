@@ -19,7 +19,7 @@ module.exports = (app, passport, pool) => {
     };
   }
 
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, '/../client/build')));
   // app.set('views', path.join(config.root, 'views'));
 
   app.use(bodyParser.json());
