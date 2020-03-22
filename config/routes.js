@@ -1,4 +1,5 @@
 const cors = require('cors');
+const path = require('path');
 const { requiresLogin, requiresAdmin } = require('./middlewares/authorization');
 const { check } = require('express-validator');
 const users = require('../users');
