@@ -1,0 +1,17 @@
+.input-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-container input {
+  padding: 1rem 2rem;
+}
+
+.input-container .input-and-error {
+  margin-left: 3em;
+  flex-grow: 2;
+  display: flex;
+  flex-flow: column wrap;
+}
