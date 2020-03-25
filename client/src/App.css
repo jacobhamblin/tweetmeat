@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2em;
-  white-space: pre
+  white-space: pre;
+  min-height: 100vh;
 }
 .App code {
   margin: 2em;
@@ -34,6 +34,7 @@ form {
   display: flex;
   flex-direction: column;
   font-family: "Courier New", monospace;
+  margin: 2em;
 }
 input {
   font-size: 1.5em;
