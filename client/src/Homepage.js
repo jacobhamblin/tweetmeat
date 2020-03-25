@@ -48,7 +48,7 @@ class Homepage extends Component {
     if (!tweets || !tweets.length) return;
     let renderedTweets = [];
     tweets.forEach(tweet => {
-      renderedTweets.push(<div className="tweet">{tweet.text}</div>);
+      renderedTweets.push(<p className="tweet">{tweet.text}</p>);
     });
     return (
       <div>
@@ -64,7 +64,7 @@ class Homepage extends Component {
       <div className="App">
         <div className="column">
         </div>
-        <div className="column">
+        <div className="column main">
           <form onSubmit={this.fetchTweets}>
             <label>Query</label>
             <input
@@ -75,12 +75,12 @@ class Homepage extends Component {
             />
             <button type="submit">Submit</button>
           </form>
+          {this.renderTweets()}
         </div>
         <div className="column right">
           <a onClick={this.toggleLogin}>Login</a>
         </div>
 
-        {this.renderTweets()}
         <Login active={login} close={this.toggleLogin} showSnackbar={showSnackbar} />
       </div>
     );

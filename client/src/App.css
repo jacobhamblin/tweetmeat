@@ -1,10 +1,14 @@
+html, body {
+  height: 100%;
+}
+
 .App {
   display: flex;
   align-items: center;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   justify-content: space-between;
   white-space: pre;
-  min-height: 100vh;
+  min-height: 100%;
 }
 .App code {
   margin: 2em;
@@ -43,6 +47,10 @@ input {
   min-width: 500px;
   padding: 2em;
   padding-top: 4em;
+}
+
+.column.main {
+  flew-grow: 2;
 }
 
 .right {
