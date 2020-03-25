@@ -16,7 +16,7 @@ module.exports = {
 
     const sql = `INSERT INTO "user" (username, password) VALUES ('${username}', '${password}');`
 
-    pool.query(sql, function(err, result) {
+    db.pool.query(sql, function(err, result) {
       // If an error occurred...
       if (err) {
         console.log("Error in query: ")
