@@ -26,6 +26,7 @@ module.exports = (app, passport, db) => {
 
   app.get('/api/tweets/', cors(), async (req, res, next) => {
     const query = req.query.q;
+    console.log(req.user)
 
     if (query) {
       const params = {
