@@ -21,8 +21,8 @@ module.exports = (app, passport, db) => {
     [check('username').isEmail(), check('password').isLength({ min: 5 })],
     users.create,
   );
-  app.get('/api/logout', loggedIn, users.logout);
-  app.get('/api/ping', loggedIn, users.ping);
+  app.get('/api/logout', users.logout);
+  app.get('/api/ping', users.ping);
 
   app.get('/api/tweets/', cors(), async (req, res, next) => {
     const query = req.query.q;
