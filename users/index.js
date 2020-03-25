@@ -14,7 +14,7 @@ module.exports = {
     }
     const { password, username } = req.body;
 
-    const sql = `INSERT INTO "user" (username, password) VALUES ('${user}', '${password}');`
+    const sql = `INSERT INTO "user" (username, password) VALUES ('${username}', '${password}');`
 
     pool.query(sql, function(err, result) {
       // If an error occurred...
