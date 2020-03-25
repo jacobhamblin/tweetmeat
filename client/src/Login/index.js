@@ -6,7 +6,17 @@ class Login extends Component {
     username: this.props.username || '',
     password: this.props.password || '',
   };
-  componentDidMount() {}
+  componentDidMount() {
+    document.addEventListener("keydown", this.escFunction.bind(this), false);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction.bind(this), false);
+  }
+  escFunction(event){
+    if (event.keyCode === 27) {
+      this.props.close()
+    }
+  }
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
