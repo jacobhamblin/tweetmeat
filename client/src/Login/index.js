@@ -19,7 +19,7 @@ class Login extends Component {
     document.removeEventListener('keydown', this.escFunction.bind(this), false);
   }
   escFunction(event) {
-    if (event.keyCode === 27) {
+    if (event.keyCode === 27 && this.props.active) {
       this.props.close();
     }
   }
