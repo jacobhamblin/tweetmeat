@@ -49,6 +49,9 @@ module.exports = (app, passport, db) => {
     }
   });
 
+  app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../client/build/login.html'));
+  });
   app.use(function(err, req, res, next) {
     if (err.message && ~err.message.indexOf('not found')) {
       return next();
