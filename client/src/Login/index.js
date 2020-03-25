@@ -31,7 +31,7 @@ class Login extends Component {
     return (
       <div className={`modal-bg ${active ? 'active' : ''}`}>
         <form onSubmit={this.login} className='login'>
-          <div class="icon-close" onClick={this.props.close}>x</div>
+          <a class="icon-close" onClick={this.props.close}>x</a>
           <div class="input-container">
             <label for="username">Username</label>
             <input

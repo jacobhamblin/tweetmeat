@@ -62,16 +62,23 @@ class Homepage extends Component {
     const { login } = this.state;
     return (
       <div className="App">
-        <form onSubmit={this.fetchTweets}>
-          <label>Query</label>
-          <input
-            type="text"
-            name="query"
-            value={this.state.query}
-            onChange={this.handleChange}
-          />
-          <button type="submit">Submit</button>
-        </form>
+        <div className="column">
+        </div>
+        <div className="column">
+          <form onSubmit={this.fetchTweets}>
+            <label>Query</label>
+            <input
+              type="text"
+              name="query"
+              value={this.state.query}
+              onChange={this.handleChange}
+            />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+        <div className="column right">
+          <a onClick={this.toggleLogin}>Login</a>
+        </div>
 
         {this.renderTweets()}
         <Login active={login} close={this.toggleLogin} showSnackbar={showSnackbar} />
