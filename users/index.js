@@ -23,6 +23,7 @@ module.exports = {
         console.log(err);
       }
 
+      console.log(result)
       res.status(201)
       res.send('User created')
     });
