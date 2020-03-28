@@ -12,6 +12,7 @@ module.exports = {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    console.log(req)
     const { password, username } = req.body;
     console.log("username")
     console.log(username)
