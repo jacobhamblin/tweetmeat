@@ -18,7 +18,7 @@ module.exports = (app, passport, db) => {
   );
   app.post(
     '/api/user',
-    [check('username').isEmail(), check('password').isLength({ min: 5 })],
+    [],
     users.create,
   );
   app.get('/api/logout', users.logout);
