@@ -18,7 +18,6 @@ module.exports = (app, passport, db) => {
   );
   app.post(
     '/api/user',
-    [],
     users.create,
   );
   app.get('/api/logout', users.logout);
