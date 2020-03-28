@@ -51,7 +51,7 @@ class Login extends Component {
       body: JSON.stringify(data),
     });
     var message = 'Logged in!';
-    if (response.status == 200) {
+    if (response.status == 201) {
       this.props.close();
     } else {
       message = 'Request rejected!';
@@ -71,7 +71,7 @@ class Login extends Component {
       method: 'POST',
       body: JSON.stringify(data),
     });
-    if (response.status == 200) {
+    if (response.status == 201) {
       message = 'User created!';
       this.props.close();
     } else {
