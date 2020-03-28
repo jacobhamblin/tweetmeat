@@ -13,6 +13,10 @@ module.exports = {
       return res.status(422).json({ errors: errors.array() });
     }
     const { password, username } = req.body;
+    console.log("username")
+    console.log(username)
+    console.log("password")
+    console.log(password)
 
     const sql = `INSERT INTO "user" (username, password) VALUES ('${username}', '${password}');`
 
