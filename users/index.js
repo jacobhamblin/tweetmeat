@@ -35,8 +35,6 @@ module.exports = {
     console.log('password');
     console.log(password);
 
-    const hash = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-
     const salt = crypto.randomBytes(16).toString('hex');
     const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
 
