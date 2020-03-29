@@ -22,7 +22,7 @@ module.exports = {
     console.log(password);
 
     const saltRounds = 10
-    const hash = bcrypt.hashSync(pass, saltRounds)
+    const hash = bcrypt.hashSync(password, saltRounds)
 
     const sql = `INSERT INTO "user" (username, password) VALUES ('${username}', '${hash}');`;
 
