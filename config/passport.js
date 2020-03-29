@@ -6,7 +6,7 @@ const db = require('../db');
 
 module.exports = (passport, db) => {
   passport.use(new Strategy((username, password, cb) => {
-    db.query('SELECT id, username, password, type FROM user WHERE username=$1', [username], (err, result) => {
+    db.query('SELECT id, username, password, type FROM "user" WHERE username=$1', [username], (err, result) => {
       if(err) {
         winston.error('Error when selecting user on login', err)
         console.log('username')
@@ -34,7 +34,7 @@ module.exports = (passport, db) => {
   })
 
   passport.deserializeUser((id, cb) => {
-    db.query('SELECT id, username, type FROM user WHERE id = $1', [parseInt(id, 10)], (err, results) => {
+    db.query('SELECT id, username, type FROM "user" WHERE id = $1', [parseInt(id, 10)], (err, results) => {
       if(err) {
         winston.error('Error when selecting user on session deserialize', err)
         return cb(err)
