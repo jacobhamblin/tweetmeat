@@ -8,7 +8,9 @@ module.exports = (passport, db) => {
   passport.use(new Strategy((username, password, cb) => {
     db.query('SELECT id, username, password, type FROM user WHERE username=$1', [username], (err, result) => {
       if(err) {
-        winston.error('Error when selecting user on login', username, err)
+        winston.error('Error when selecting user on login', err)
+        console.log('username')
+        console.log(username)
         return cb(err)
       }
 
