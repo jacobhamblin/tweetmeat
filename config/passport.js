@@ -11,7 +11,7 @@ module.exports = (passport, db) => {
         winston.error('Error when selecting user on login', err)
         console.log('username')
         console.log(username)
-        return cb(err)
+        return;
       }
 
       if(result.rows.length > 0) {
