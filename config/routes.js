@@ -10,12 +10,11 @@ module.exports = (app, passport, db) => {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../client/build/index.html'));
   });
-  app.post('/api/login', (req, res) =>
-    passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/?login=true',
-    })(req, res),
-  );
+  app.post('api/login',
+    passport.authenticate('local', { failureRedirect: '/?login=true' }),
+    function(req, res) {
+      res.redirect('/');
+    });
   app.post(
     '/api/user',
     users.create,
