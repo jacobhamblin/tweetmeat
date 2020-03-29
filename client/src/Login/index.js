@@ -49,6 +49,9 @@ class Login extends Component {
     const response = await fetch('/api/login', {
       method: 'POST',
       body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
     });
     var message = 'Logged in!';
     if (response.status == 201) {
@@ -70,6 +73,9 @@ class Login extends Component {
     const response = await fetch('/api/user', {
       method: 'POST',
       body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      },
     });
     if (response.status == 201) {
       message = 'User created!';

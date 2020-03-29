@@ -23,7 +23,7 @@ module.exports = (app, passport, pool) => {
   // app.set('views', path.join(config.root, 'views'));
 
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use(
     methodOverride(function(req) {
