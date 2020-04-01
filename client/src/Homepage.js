@@ -8,16 +8,14 @@ class Homepage extends Component {
     tweets: [],
     queryParams: { get: () => {} },
     login: false,
+    loggedIn: false,
   };
   componentDidMount() {
-    console.log('fetching tweets');
     this.setQueryParams();
     this.fetchTweets();
   }
-  maybeOpenLogin = (queryParams) => {
-    console.log('what is in query params')
-    console.log(queryParams.get('login'))
-    if (queryParams.get('login')) this.setState({login: true})
+  maybeOpenLogin = queryParams => {
+    if (queryParams.get('login')) this.setState({ login: true });
   };
   setQueryParams = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -27,11 +25,29 @@ class Homepage extends Component {
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+  logout = async () => {
+    const { username, password } = this.state;
+    const response = await fetch('/api/login', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    var message = 'Logged out!';
+    if (response.status == 200) {
+      this.props.toggleLoggedIn();
+    } else {
+      message = 'Request rejected!';
+    }
+    this.props.showSnackbar(message);
+  };
   toggleLogin = () => {
     const { login } = this.state;
-    console.log('login is')
-    console.log(login)
     this.setState({ login: !login });
+  };
+  toggleLoggedIn = () => {
+    const { loggedIn } = this.state;
+    this.setState({ loggedIn: !loggedIn });
   };
   fetchTweets = async event => {
     if (event) event.preventDefault();
@@ -39,8 +55,6 @@ class Homepage extends Component {
     const url = query ? `/api/tweets?q=${query}` : '/api/tweets';
     const response = await fetch(url);
     const tweets = await response.json();
-    console.log('tweets');
-    console.log(tweets);
     this.setState({ tweets: tweets.statuses });
   };
   renderTweets = () => {
@@ -62,8 +76,7 @@ class Homepage extends Component {
     const { login } = this.state;
     return (
       <div className="App">
-        <div className="column">
-        </div>
+        <div className="column" />
         <div className="column main">
           <form onSubmit={this.fetchTweets}>
             <label>Query</label>
@@ -78,10 +91,19 @@ class Homepage extends Component {
           {this.renderTweets()}
         </div>
         <div className="column right">
-          <a onClick={this.toggleLogin}>Login</a>
+          {this.state.loggedIn ? (
+            <a onClick={this.logout}>Log out</a>
+          ) : (
+            <a onClick={this.toggleLogin}>Log in</a>
+          )}
         </div>
 
-        <Login active={login} close={this.toggleLogin} showSnackbar={showSnackbar} />
+        <Login
+          active={login}
+          close={this.toggleLogin}
+          setSessionState={this.toggleLoggedIn}
+          showSnackbar={showSnackbar}
+        />
       </div>
     );
   }

@@ -55,6 +55,7 @@ class Login extends Component {
     });
     var message = 'Logged in!';
     if (response.status == 200) {
+      this.props.setSessionState();
       this.props.close();
     } else {
       message = 'Request rejected!';
