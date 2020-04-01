@@ -10,21 +10,14 @@ module.exports = (app, passport, db) => {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname + '/../client/build/index.html'));
   });
-  app.post('api/login',
-    passport.authenticate('local', { failureRedirect: '/?login=true' }),
-    function(req, res) {
-      res.redirect('/');
-    });
-  app.post(
-    '/api/user',
-    users.create,
-  );
+  app.post('/api/login', passport.authenticate('local'), users.login);
+  app.post('/api/user', users.create);
   app.get('/api/logout', users.logout);
   app.get('/api/ping', users.ping);
 
   app.get('/api/tweets/', cors(), async (req, res, next) => {
     const query = req.query.q;
-    console.log(req.user)
+    console.log(req.user);
 
     if (query) {
       const params = {
