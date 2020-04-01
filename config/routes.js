@@ -3,7 +3,7 @@ const path = require('path');
 const { requiresLogin, requiresAdmin } = require('./middlewares/authorization');
 const { check } = require('express-validator');
 const users = require('../users');
-const users = require('../query');
+const query = require('../query');
 const { loggedIn } = require('./utils');
 const Twitter = require('./twitter');
 

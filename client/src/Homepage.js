@@ -9,7 +9,7 @@ class Homepage extends Component {
     queryParams: { get: () => {} },
     login: false,
     loggedIn: false,
-    user: { id: '', usernmae: '' },
+    user: { id: '', username: '' },
   };
   componentDidMount() {
     this.setQueryParams();
