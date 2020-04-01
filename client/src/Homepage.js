@@ -27,7 +27,7 @@ class Homepage extends Component {
   };
   logout = async () => {
     const { username, password } = this.state;
-    const response = await fetch('/api/login', {
+    const response = await fetch('/api/logout', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
