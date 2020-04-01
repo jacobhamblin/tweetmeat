@@ -14,12 +14,7 @@ module.exports = {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    console.log(req);
     const { password, username } = req.body;
-    console.log('username');
-    console.log(username);
-    console.log('password');
-    console.log(password);
 
     const saltRounds = 10
     const hash = bcrypt.hashSync(password, saltRounds)
@@ -33,7 +28,6 @@ module.exports = {
         console.log(err);
       }
 
-      console.log(result);
       res.status(201);
       res.send('User created');
     });

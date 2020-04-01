@@ -57,6 +57,7 @@ class Login extends Component {
     if (response.status == 200) {
       this.props.setSessionState();
       this.props.close();
+      this.setState({username: '', password: '', confirm: ''})
     } else {
       message = 'Request rejected!';
     }
@@ -80,6 +81,7 @@ class Login extends Component {
     });
     if (response.status == 201) {
       message = 'User created!';
+      this.setState({username: '', password: '', confirm: ''})
       this.props.close();
     } else {
       message = 'Request rejected!';

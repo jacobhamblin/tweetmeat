@@ -9,6 +9,7 @@ class Homepage extends Component {
     queryParams: { get: () => {} },
     login: false,
     loggedIn: false,
+    user: { id: '', usernmae: '' },
   };
   componentDidMount() {
     this.setQueryParams();
@@ -40,6 +41,9 @@ class Homepage extends Component {
       message = 'Request rejected!';
     }
     this.props.showSnackbar(message);
+  };
+  setUser = ({ id, username }) => {
+    this.setState({ id, username });
   };
   toggleLogin = () => {
     const { login } = this.state;
@@ -73,7 +77,7 @@ class Homepage extends Component {
   };
   render() {
     const { showSnackbar } = this.props;
-    const { login } = this.state;
+    const { login, user } = this.state;
     return (
       <div className="App">
         <div className="column" />
@@ -92,7 +96,10 @@ class Homepage extends Component {
         </div>
         <div className="column right">
           {this.state.loggedIn ? (
-            <a onClick={this.logout}>Log out</a>
+            <div>
+              <div>Welcome, {user.username}</div>
+              <a onClick={this.logout}>Log out</a>
+            </div>
           ) : (
             <a onClick={this.toggleLogin}>Log in</a>
           )}
@@ -102,6 +109,7 @@ class Homepage extends Component {
           active={login}
           close={this.toggleLogin}
           setSessionState={this.toggleLoggedIn}
+          setUser={this.setUser}
           showSnackbar={showSnackbar}
         />
       </div>
