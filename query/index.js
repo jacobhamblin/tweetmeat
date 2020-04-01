@@ -4,7 +4,8 @@ const moment = require('moment');
 
 module.exports = {
   query: async (req, res, next) => {
-    const { username, id, query } = req.body;
+    const query = req.query.q;
+    const { username, id } = req.body;
 
     let queryID;
     const querySQL = `SELECT id, query, FROM query WHERE query=${query}`;
@@ -32,8 +33,6 @@ module.exports = {
 
       }
     });
-
-    const query = req.query.q;
 
     if (query) {
       const params = {
