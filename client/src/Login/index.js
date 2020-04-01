@@ -59,7 +59,7 @@ class Login extends Component {
       this.props.close();
       console.log(response)
       this.setState({username: '', password: '', confirm: ''})
-      this.setUser({username: response.body.username, id: response.body.id})
+      this.props.setUser({username: response.body.username, id: response.body.id})
     } else {
       message = 'Request rejected!';
     }
