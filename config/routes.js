@@ -3,6 +3,7 @@ const path = require('path');
 const { requiresLogin, requiresAdmin } = require('./middlewares/authorization');
 const { check } = require('express-validator');
 const users = require('../users');
+const users = require('../query');
 const { loggedIn } = require('./utils');
 const Twitter = require('./twitter');
 
@@ -15,36 +16,7 @@ module.exports = (app, passport, db) => {
   app.get('/api/logout', users.logout);
   app.get('/api/ping', users.ping);
 
-  app.get('/api/tweets/', cors(), async (req, res, next) => {
-    const query = req.query.q;
-    console.log(req.user);
-
-    if (query) {
-      const params = {
-        q: query,
-        response_type: 'popular',
-      };
-      try {
-        Twitter.get('search/tweets', params, (error, tweets, response) => {
-          res.json(tweets);
-        });
-      } catch (err) {
-        next(err);
-      }
-    } else {
-      try {
-        Twitter.get('statuses/sample', (error, tweets, response) => {
-          console.log('server, callback');
-          console.log(tweets);
-          res.json(tweets);
-        });
-      } catch (err) {
-        console.log('server, error');
-        console.log(err);
-        next(err);
-      }
-    }
-  });
+  app.get('/api/tweets/', cors(), query.query);
 
   app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname + '/../client/build/login.html'));

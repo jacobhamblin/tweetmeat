@@ -1,10 +1,9 @@
 const db = require('../db');
 const { validationResult } = require('express-validator');
-const bcrypt = require('bcrypt');
 const moment = require('moment');
 
 module.exports = {
-  query: (req, res) => {
+  query: async (req, res, next) => {
     const { username, id, query } = req.body;
 
     let queryID;
@@ -34,6 +33,33 @@ module.exports = {
       }
     });
 
+    const query = req.query.q;
+
+    if (query) {
+      const params = {
+        q: query,
+        response_type: 'popular',
+      };
+      try {
+        Twitter.get('search/tweets', params, (error, tweets, response) => {
+          res.json(tweets);
+        });
+      } catch (err) {
+        next(err);
+      }
+    } else {
+      try {
+        Twitter.get('statuses/sample', (error, tweets, response) => {
+          console.log('server, callback');
+          console.log(tweets);
+          res.json(tweets);
+        });
+      } catch (err) {
+        console.log('server, error');
+        console.log(err);
+        next(err);
+      }
+    }
     // var recentQueryExists = false;
     // const query = `SELECT id, query_id, user_id, time FROM search WHERE user_id=${id} AND query_id=${} ORDER_BY time DESC`;
     // db.pool.query(sql, function(err, result) {
