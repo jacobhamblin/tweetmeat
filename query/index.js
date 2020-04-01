@@ -1,7 +1,7 @@
 const db = require('../db');
 const { validationResult } = require('express-validator');
 const moment = require('moment');
-const Twitter = require('./twitter');
+const Twitter = require('../twitter');
 
 module.exports = {
   query: async (req, res, next) => {
