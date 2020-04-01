@@ -26,6 +26,7 @@ module.exports = {
             console.log(err);
           }
 
+          console.log('result')
           console.log(result)
           queryID = result;
           console.log(queryID)
