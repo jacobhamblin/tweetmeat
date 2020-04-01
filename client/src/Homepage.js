@@ -55,9 +55,18 @@ class Homepage extends Component {
   };
   fetchTweets = async event => {
     if (event) event.preventDefault();
-    const { query } = this.state;
+    const { user, query } = this.state;
     const url = query ? `/api/tweets?q=${query}` : '/api/tweets';
-    const response = await fetch(url);
+    let data = undefined;
+    if (user.username) {
+      data = {
+        body: JSON.stringify({username: user.username, id: user.id}),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    }
+    const response = await fetch(url, data);
     const tweets = await response.json();
     this.setState({ tweets: tweets.statuses });
   };
