@@ -9,7 +9,7 @@ module.exports = {
     const { username, id } = req.body;
 
     let queryID;
-    const querySQL = `SELECT id, query, FROM query WHERE query=${query}`;
+    const querySQL = `SELECT id, query FROM query WHERE query=${query}`;
     db.pool.query(querySQL, function(err, result) {
       if (err) {
         console.log('Error in query: ');
