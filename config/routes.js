@@ -5,7 +5,6 @@ const { check } = require('express-validator');
 const users = require('../users');
 const query = require('../query');
 const { loggedIn } = require('./utils');
-const Twitter = require('./twitter');
 
 module.exports = (app, passport, db) => {
   app.get('/', (req, res) => {
