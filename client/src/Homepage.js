@@ -35,7 +35,7 @@ class Homepage extends Component {
     });
     var message = 'Logged out!';
     if (response.status == 200) {
-      this.props.toggleLoggedIn();
+      this.toggleLoggedIn();
     } else {
       message = 'Request rejected!';
     }
