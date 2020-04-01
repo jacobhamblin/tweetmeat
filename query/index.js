@@ -6,37 +6,38 @@ const Twitter = require('../config/twitter');
 module.exports = {
   query: async (req, res, next) => {
     const query = req.query.q;
-    const { username, id } = req.body;
-
-    let queryID;
-    const querySQL = `SELECT id, query FROM query WHERE query=${query}`;
-    db.pool.query(querySQL, function(err, result) {
-      if (err) {
-        console.log('Error in query: ');
-        console.log(err);
-      }
-
-      if (result.rows.length > 0) {
-        const first = result.rows[0];
-        queryID = first.id;
-      } else {
-        const insertSQL = `INSERT INTO query (query) VALUES ('${query}') RETURNING id;`;
-        db.pool.query(querySQL, function(err, result) {
-          if (err) {
-            console.log('Error in query: ');
-            console.log(err);
-          }
-
-          console.log('result')
-          console.log(result)
-          queryID = result;
-          console.log(queryID)
-        });
-
-      }
-    });
 
     if (query) {
+      const { username, id } = req.body;
+
+      let queryID;
+      const querySQL = `SELECT id, query FROM query WHERE query=${query}`;
+      db.pool.query(querySQL, function(err, result) {
+        if (err) {
+          console.log('Error in query: ');
+          console.log(err);
+        }
+
+        if (result.rows.length > 0) {
+          const first = result.rows[0];
+          queryID = first.id;
+        } else {
+          const insertSQL = `INSERT INTO query (query) VALUES ('${query}') RETURNING id;`;
+          db.pool.query(querySQL, function(err, result) {
+            if (err) {
+              console.log('Error in query: ');
+              console.log(err);
+            }
+
+            console.log('result')
+            console.log(result)
+            queryID = result;
+            console.log(queryID)
+          });
+
+        }
+      });
+
       const params = {
         q: query,
         response_type: 'popular',
