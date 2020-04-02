@@ -58,6 +58,7 @@ class Login extends Component {
       this.props.setSessionState();
       this.props.close();
       console.log(response)
+      console.log(response.json())
       this.setState({username: '', password: '', confirm: ''})
       this.props.setUser({username: response.body.username, id: response.body.id})
     } else {
