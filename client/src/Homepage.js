@@ -44,7 +44,7 @@ class Homepage extends Component {
     this.props.showSnackbar(message);
   };
   setUser = ({ id, username }) => {
-    this.setState({ id, username });
+    this.setState({user: { id, username }});
   };
   toggleLogin = () => {
     const { login } = this.state;

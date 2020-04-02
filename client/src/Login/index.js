@@ -55,12 +55,10 @@ class Login extends Component {
     });
     var message = 'Logged in!';
     if (response.status == 200) {
+      const body = await response.json()
       this.props.setSessionState();
       this.props.close();
-      const body = await response.json()
       this.setState({username: '', password: '', confirm: ''})
-      console.log('body')
-      console.log(body)
       this.props.setUser({username: body.username, id: body.id})
     } else {
       message = 'Request rejected!';
