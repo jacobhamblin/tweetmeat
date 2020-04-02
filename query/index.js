@@ -9,8 +9,8 @@ const getQueryID = async query => {
   return await db.pool
     .query(querySQL)
     .then(async res => {
-      if (result.rows.length > 0) {
-        const first = result.rows[0];
+      if (res.rows.length > 0) {
+        const first = res.rows[0];
         return first.id;
       } else {
         const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
@@ -42,8 +42,8 @@ module.exports = {
         needToInsert = await db.pool
           .query(querySQL)
           .then(res => {
-            if (result.rows.length > 0) {
-              const first = result.rows[0];
+            if (res.rows.length > 0) {
+              const first = res.rows[0];
               if (moment(first.time).diff(moment(), 'hours') < 1) return false;
             }
           })
@@ -82,13 +82,12 @@ module.exports = {
   top_queries: async (req, res, next) => {
     const querySQL =
       'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id';
-    db.pool.query(querySQL, function(err, result) {
-      if (err) {
-        console.log('Error in query: ');
-        console.log(err);
-      }
-      res.status(200);
-      res.json(result.rows);
-    });
+    db.pool
+      .query(querySQL)
+      .then(res => {
+        res.status(200)
+        res.json(res.rows)
+      })
+      .catch(e => console.error(e))
   },
 };
