@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './Login';
 import './App.css';
+import queryString from 'query-string';
 
 class Homepage extends Component {
   state = {
@@ -56,17 +57,14 @@ class Homepage extends Component {
   fetchTweets = async event => {
     if (event) event.preventDefault();
     const { user, query } = this.state;
-    const url = query ? `/api/tweets?q=${query}` : '/api/tweets';
-    let data = undefined;
-    if (user.username) {
-      data = {
-        body: JSON.stringify({username: user.username, id: user.id}),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    }
-    const response = await fetch(url, data);
+    const data = {};
+    if (query) data.q = query;
+    if (user.id) data.user_id = user.id;
+    const url = queryString.stringifyUrl({
+      url: '/api/tweets',
+      query: data,
+    })
+    const response = await fetch(url);
     const tweets = await response.json();
     this.setState({ tweets: tweets.statuses });
   };
