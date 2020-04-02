@@ -80,7 +80,7 @@ module.exports = {
   },
   top_queries: async (req, res, next) => {
     const querySQL =
-      'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id';
+      'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id ORDER BY s.count DESC';
     db.pool
       .query(querySQL)
       .then(result => {

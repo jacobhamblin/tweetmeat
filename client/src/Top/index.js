@@ -27,6 +27,7 @@ function Top({ updateCount }) {
     return top.map(q => renderQuery(q));
   };
   useEffect(() => {
+    console.log(updateCount)
     fetchTopQueries();
   }, [updateCount]);
   return (
