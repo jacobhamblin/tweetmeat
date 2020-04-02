@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Top.css';
+import _sortBy from 'lodash/sortBy';
 
 export default class Top extends Component {
   state = {
@@ -13,12 +14,27 @@ export default class Top extends Component {
     const response = await fetch(url);
     console.log('response')
     console.log(response)
-    const top = await response.json();
-    console.log('top')
-    console.log(top)
+    let top = await response.json();
+    _sortBy(top, q => Number(q.count));
     this.setState({ top });
   }
+  renderQuery(query) {
+    return (
+      <div className='query'>
+        <div className='count'>{query.count}</div>
+        <div className='name'>{query.name}</div>
+      </div>
+    )
+  }
+  renderTopQueries() {
+    return this.state.top.map(q => this.renderQuery(q))
+  }
   render() {
-    return <div />;
+    return (
+      <div className='top-queries'>
+        Top Queries
+        {this.renderTopQueries()}
+      </div>
+    )
   }
 }
