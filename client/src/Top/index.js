@@ -15,7 +15,7 @@ export default class Top extends Component {
     console.log('response');
     console.log(response);
     let top = await response.json();
-    _sortBy(top, q => Number(q.count));
+    top = _sortBy(top, q => Number(q.count));
     this.setState({ top });
   };
   renderQuery(query) {
