@@ -12,8 +12,8 @@ module.exports = {
       console.log('userID')
       console.log(userID)
       if (userID) {
-        let queryID;
-        let querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+        var queryID;
+        var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
@@ -27,7 +27,7 @@ module.exports = {
             console.log('queryID existing query')
             console.log(queryID)
           } else {
-            let insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+            var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
             db.pool.query(insertSQL, function(err, result) {
               if (err) {
                 console.log('Error in query: ');
@@ -95,7 +95,7 @@ module.exports = {
     }
   },
   top_queries: async (req, res, next) => {
-        let querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+        var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
@@ -106,7 +106,7 @@ module.exports = {
             const first = result.rows[0];
             queryID = first.id;
           } else {
-            let insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+            var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
             db.pool.query(insertSQL, function(err, result) {
               if (err) {
                 console.log('Error in query: ');
