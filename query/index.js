@@ -29,7 +29,7 @@ module.exports = {
             console.log(queryID);
           } else {
             var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
-            db.pool.query(insertSQL, function(err, result) {
+            await db.pool.query(insertSQL, function(err, result) {
               if (err) {
                 console.log('Error in query: ');
                 console.log(err);
