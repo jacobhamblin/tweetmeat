@@ -15,7 +15,7 @@ module.exports = {
       if (userID) {
         var queryID;
         var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
-        await db.pool.query(querySQL, function(err, result) {
+        await db.pool.query(querySQL, async function(err, result) {
           if (err) {
             console.log('Error in query: ');
             console.log(err);
