@@ -42,6 +42,7 @@ module.exports = {
 
         var recentQueryExists = false;
         querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
+        console.log(querySQL)
         await db.pool.query(querySQL, function(err, result) {
           console.log('47 vars');
           console.log(userID);
