@@ -3,34 +3,25 @@ const { validationResult } = require('express-validator');
 const moment = require('moment');
 const Twitter = require('../config/twitter');
 
-const getQueryID = async (query) => {
+const getQueryID = async query => {
   var queryID;
   const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
-  await db.pool.query(querySQL, async function(err, result) {
-    if (err) {
-      console.log('Error in query: ');
-      console.log(err);
-    }
-
-    if (result.rows.length > 0) {
-      const first = result.rows[0];
-      console.log(first);
-      queryID = first.id;
-      console.log('queryID existing query');
-      console.log(queryID);
-    } else {
-      const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
-      await db.pool.query(insertSQL, function(err, result) {
-        if (err) {
-          console.log('Error in query: ');
-          console.log(err);
-        }
-        queryID = result.rows[0].id;
-      });
-    }
-  })
-  return queryID;
-}
+  return await db.pool
+    .query(querySQL)
+    .then(res => {
+      if (result.rows.length > 0) {
+        const first = result.rows[0];
+        return first.id;
+      } else {
+        const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+        await db.pool
+          .query(insertSQL)
+          .then(res => res.rows[0].id)
+          .catch(e => console.error(e));
+      }
+    })
+    .catch(e => console.error(e));
+};
 
 module.exports = {
   query: async (req, res, next) => {
@@ -43,35 +34,23 @@ module.exports = {
       console.log(userID);
       if (userID) {
         const queryID = await getQueryID(query);
-        var recentQueryExists = false;
+        console.log('queryID');
+        console.log(queryID);
+        var needToInsert = true;
         const querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
-        console.log(querySQL)
-        await db.pool.query(querySQL, function(err, result) {
-          console.log('47 vars');
-          console.log(userID);
-          console.log(queryID);
-          if (err) {
-            console.log(47);
-            console.log('Error in query: ');
-            console.log(err);
-          }
-
-          if (result.rows.length > 0) {
-            const first = result.rows[0];
-            if (moment(first.time).diff(moment(), 'hours') < 1)
-              recentQueryExists = true;
-          }
-        });
-
-        if (!recentQueryExists) {
-          const insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
-          await db.pool.query(insertSQL, function(err, result) {
-            if (err) {
-              console.log(63);
-              console.log('Error in query: ');
-              console.log(err);
+        console.log(querySQL);
+        needToInsert = await db.pool
+          .query(querySQL)
+          .then(res => {
+            if (result.rows.length > 0) {
+              const first = result.rows[0];
+              if (moment(first.time).diff(moment(), 'hours') < 1) return false;
             }
-          });
+          })
+          .catch(e => console.error(e));
+        if (needToInsert) {
+          const insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
+          await db.pool.query(insertSQL).catch(e => console.error(e));
         }
       }
 
