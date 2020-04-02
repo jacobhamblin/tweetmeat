@@ -27,9 +27,9 @@ module.exports = {
   query: async (req, res, next) => {
     let query = req.query.q;
     const userID = req.query.user_id;
-    query = query.toLowerCase();
 
     if (query) {
+      query = query.toLowerCase();
       console.log('userID');
       console.log(userID);
       if (userID) {
