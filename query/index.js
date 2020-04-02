@@ -40,9 +40,9 @@ module.exports = {
           .then(res => {
             if (res.rows.length > 0) {
               const first = res.rows[0];
-              console.log('time since user made this query')
-              console.log(moment(first.time).diff(moment(), 'hours'))
-              if (moment(first.time).diff(moment(), 'hours') < 1) return false;
+              console.log('time since user made this query');
+              console.log(moment(first.time).diff(moment(), 'hours'));
+              if (moment(first.time).diff(moment(), 'hours') > -1) return false;
               return true;
             }
           })
