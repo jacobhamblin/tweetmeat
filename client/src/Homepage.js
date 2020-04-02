@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import { stringify } from 'query-string';
 import Login from './Login';
 import './App.css';
-import queryString from 'query-string';
 
 class Homepage extends Component {
   state = {
@@ -60,10 +60,9 @@ class Homepage extends Component {
     const data = {};
     if (query) data.q = query;
     if (user.id) data.user_id = user.id;
-    const url = queryString.stringifyUrl({
-      url: '/api/tweets',
-      query: data,
-    })
+    const queryString = stringify({ ...data });
+    let url = '/api/tweets';
+    if (queryString) url += '?' + queryString;
     const response = await fetch(url);
     const tweets = await response.json();
     this.setState({ tweets: tweets.statuses });
