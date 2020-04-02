@@ -13,7 +13,7 @@ module.exports = {
       console.log(user_id)
       if (user_id) {
         let queryID;
-        const querySQL = `SELECT id, text FROM query WHERE text=${query}`;
+        const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
