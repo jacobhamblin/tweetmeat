@@ -8,7 +8,7 @@ const getQueryID = async query => {
   const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
   return await db.pool
     .query(querySQL)
-    .then(res => {
+    .then(async res => {
       if (result.rows.length > 0) {
         const first = result.rows[0];
         return first.id;
