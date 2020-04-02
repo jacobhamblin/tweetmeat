@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 const moment = require('moment');
 const Twitter = require('../config/twitter');
 
-const getQueryID = async () => {
+const getQueryID = async (query) => {
   var queryID;
   const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
   await db.pool.query(querySQL, async function(err, result) {
@@ -42,7 +42,7 @@ module.exports = {
       console.log('userID');
       console.log(userID);
       if (userID) {
-        const queryID = await getQueryID();
+        const queryID = await getQueryID(query);
         var recentQueryExists = false;
         const querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         console.log(querySQL)
