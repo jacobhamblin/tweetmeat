@@ -84,9 +84,9 @@ module.exports = {
       'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id';
     db.pool
       .query(querySQL)
-      .then(res => {
+      .then(result => {
         res.status(200)
-        res.json(res.rows)
+        res.json(result.rows)
       })
       .catch(e => console.error(e))
   },
