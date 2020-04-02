@@ -68,8 +68,8 @@ module.exports = {
               }
             });
           }
-        }
         });
+      }
 
 
 
