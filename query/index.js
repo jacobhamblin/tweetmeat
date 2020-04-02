@@ -9,6 +9,8 @@ module.exports = {
     const user_id = req.query.user_id;
 
     if (query) {
+      console.log('user_id')
+      console.log(user_id)
       if (user_id) {
         let queryID;
         const querySQL = `SELECT id, text FROM query WHERE text=${query}`;
@@ -21,6 +23,9 @@ module.exports = {
           if (result.rows.length > 0) {
             const first = result.rows[0];
             queryID = first.id;
+            console.log('found an existing query')
+            console.log('queryID')
+            console.log(queryID)
           } else {
             const insertSQL = `INSERT INTO query (query) VALUES ('${query}') RETURNING id;`;
             db.pool.query(querySQL, function(err, result) {
