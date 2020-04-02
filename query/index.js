@@ -3,6 +3,36 @@ const { validationResult } = require('express-validator');
 const moment = require('moment');
 const Twitter = require('../config/twitter');
 
+const getQueryID = async () => {
+  var queryID;
+  var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+  await db.pool.query(querySQL, async function(err, result) {
+    if (err) {
+      console.log('Error in query: ');
+      console.log(err);
+    }
+
+    if (result.rows.length > 0) {
+      const first = result.rows[0];
+      console.log(first);
+      queryID = first.id;
+      console.log('queryID existing query');
+      console.log(queryID);
+    } else {
+      var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+      await db.pool.query(insertSQL, function(err, result) {
+        if (err) {
+          console.log('Error in query: ');
+          console.log(err);
+        }
+
+        queryID = result.rows[0].id;
+      });
+    }
+  })
+  return queryID;
+}
+
 module.exports = {
   query: async (req, res, next) => {
     let query = req.query.q;
@@ -13,33 +43,7 @@ module.exports = {
       console.log('userID');
       console.log(userID);
       if (userID) {
-        var queryID;
-        var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
-        await db.pool.query(querySQL, async function(err, result) {
-          if (err) {
-            console.log('Error in query: ');
-            console.log(err);
-          }
-
-          if (result.rows.length > 0) {
-            const first = result.rows[0];
-            console.log(first);
-            queryID = first.id;
-            console.log('queryID existing query');
-            console.log(queryID);
-          } else {
-            var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
-            await db.pool.query(insertSQL, function(err, result) {
-              if (err) {
-                console.log('Error in query: ');
-                console.log(err);
-              }
-
-              queryID = result.rows[0].id;
-            });
-          }
-        })
-
+        const queryID = await getQueryID();
         var recentQueryExists = false;
         querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         console.log(querySQL)
