@@ -76,7 +76,7 @@ class Homepage extends Component {
       renderedTweets.push(<p className="tweet">{tweet.text}</p>);
     });
     return (
-      <div>
+      <div className='tweets-container'>
         <h1>tweets</h1>
         {renderedTweets}
       </div>

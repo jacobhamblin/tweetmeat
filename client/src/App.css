@@ -60,3 +60,11 @@ a {
   font-size: 20px;
   line-height: 20px;
 }
+
+.tweets-container {
+  position: relative;
+}
+
+.tweets-container .tweet {
+  max-width: 100%;
+}
