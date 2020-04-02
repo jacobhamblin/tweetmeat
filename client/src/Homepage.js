@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { stringify } from 'query-string';
 import Login from './Login';
+import Top from './Top';
 import './App.css';
 
 class Homepage extends Component {
@@ -103,8 +104,11 @@ class Homepage extends Component {
         <div className="column right">
           {this.state.loggedIn ? (
             <div>
-              <div>Welcome, {user.username}</div>
-              <a onClick={this.logout}>Log out</a>
+              <div>
+                <div>Welcome, {user.username}</div>
+                <a onClick={this.logout}>Log out</a>
+              </div>
+              <Top />
             </div>
           ) : (
             <a onClick={this.toggleLogin}>Log in</a>

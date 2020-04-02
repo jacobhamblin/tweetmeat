@@ -16,6 +16,7 @@ module.exports = (app, passport, db) => {
   app.get('/api/ping', users.ping);
 
   app.get('/api/tweets/', cors(), query.query);
+  app.get('/api/top_queries/', query.top_queries);
 
   app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname + '/../client/build/login.html'));

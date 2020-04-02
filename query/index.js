@@ -9,12 +9,12 @@ module.exports = {
     const userID = req.query.user_id;
 
     if (query) {
-      console.log('userID')
-      console.log(userID)
+      console.log('userID');
+      console.log(userID);
       if (userID) {
         var queryID;
         var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
-        db.pool.query(querySQL, function(err, result) {
+        await db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
             console.log(err);
@@ -22,10 +22,10 @@ module.exports = {
 
           if (result.rows.length > 0) {
             const first = result.rows[0];
-            console.log(first)
+            console.log(first);
             queryID = first.id;
-            console.log('queryID existing query')
-            console.log(queryID)
+            console.log('queryID existing query');
+            console.log(queryID);
           } else {
             var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
             db.pool.query(insertSQL, function(err, result) {
@@ -36,33 +36,32 @@ module.exports = {
 
               queryID = result.rows[0].id;
             });
-
           }
 
           var recentQueryExists = false;
           querySQL = `SELECT * FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER BY time DESC`;
-          console.log('47 vars')
-          console.log(userID)
-          console.log(queryID)
+          console.log('47 vars');
+          console.log(userID);
+          console.log(queryID);
           db.pool.query(querySQL, function(err, result) {
             if (err) {
-              console.log(47)
+              console.log(47);
               console.log('Error in query: ');
               console.log(err);
             }
 
             if (result.rows.length > 0) {
               const first = result.rows[0];
-              if (moment(first.time).diff(moment(), 'hours') < 1) recentQueryExists = true;
+              if (moment(first.time).diff(moment(), 'hours') < 1)
+                recentQueryExists = true;
             }
           });
-
 
           if (!recentQueryExists) {
             insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
             db.pool.query(insertSQL, function(err, result) {
               if (err) {
-                console.log(63)
+                console.log(63);
                 console.log('Error in query: ');
                 console.log(err);
               }
@@ -70,8 +69,6 @@ module.exports = {
           }
         });
       }
-
-
 
       const params = {
         q: query,
@@ -99,29 +96,15 @@ module.exports = {
     }
   },
   top_queries: async (req, res, next) => {
-        var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
-        db.pool.query(querySQL, function(err, result) {
-          if (err) {
-            console.log('Error in query: ');
-            console.log(err);
-          }
-
-          if (result.rows.length > 0) {
-            const first = result.rows[0];
-            queryID = first.id;
-          } else {
-            var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
-            db.pool.query(insertSQL, function(err, result) {
-              if (err) {
-                console.log('Error in query: ');
-                console.log(err);
-              }
-
-              queryID = result.rows[0].id;
-            });
-
-          }
-        });
-
-  }
+    var querySQL =
+      'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id';
+    db.pool.query(querySQL, function(err, result) {
+      if (err) {
+        console.log('Error in query: ');
+        console.log(err);
+      }
+      res.status(200);
+      res.json(result.rows);
+    });
+  },
 };
