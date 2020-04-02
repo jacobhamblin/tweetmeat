@@ -27,7 +27,7 @@ module.exports = {
             console.log('queryID')
             console.log(queryID)
           } else {
-            const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+            const insertSQL = `INSERT INTO query (id, text) VALUES (DEFAULT, '${query}') RETURNING id;`;
             db.pool.query(querySQL, function(err, result) {
               if (err) {
                 console.log('Error in query: ');
