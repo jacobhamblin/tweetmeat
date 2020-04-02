@@ -76,11 +76,13 @@ class Homepage extends Component {
       renderedTweets.push(<p className="tweet">{tweet.text}</p>);
     });
     return (
-      <div className='tweets-container'>
+      <div>
         <h1>tweets</h1>
-        {renderedTweets}
+        <div className='tweets-container'>
+          {renderedTweets}
+        </div>
       </div>
-    );
+      );
   };
   render() {
     const { showSnackbar } = this.props;
