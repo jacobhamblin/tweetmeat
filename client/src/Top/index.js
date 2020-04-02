@@ -29,10 +29,11 @@ export default class Top extends Component {
     return this.state.top.map(q => this.renderQuery(q))
   }
   render() {
+    const { top } = this.state;
     console.log('hello from top')
     return (
       <div className='top-queries'>
-        <h2>Top Queries</h2>
+        { top.length ? <h2>Top Queries</h2> : null}
         <div className='queries'>
           {this.renderTopQueries()}
         </div>
