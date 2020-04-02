@@ -13,7 +13,7 @@ module.exports = {
       console.log(userID)
       if (userID) {
         let queryID;
-        const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+        let querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
@@ -24,7 +24,7 @@ module.exports = {
             const first = result.rows[0];
             queryID = first.id;
           } else {
-            const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+            let insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
             db.pool.query(insertSQL, function(err, result) {
               if (err) {
                 console.log('Error in query: ');
@@ -38,7 +38,7 @@ module.exports = {
         });
 
         var recentQueryExists = false;
-        const querySQL = `SELECT id, query_id, user_id, time FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER_BY time DESC`;
+        querySQL = `SELECT id, query_id, user_id, time FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER_BY time DESC`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
@@ -53,7 +53,7 @@ module.exports = {
 
 
         if (!recentQueryExists) {
-          const insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
+          insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
           db.pool.query(insertSQL, function(err, result) {
             if (err) {
               console.log('Error in query: ');
