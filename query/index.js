@@ -5,7 +5,7 @@ const Twitter = require('../config/twitter');
 
 const getQueryID = async () => {
   var queryID;
-  var querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+  const querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
   await db.pool.query(querySQL, async function(err, result) {
     if (err) {
       console.log('Error in query: ');
@@ -19,13 +19,12 @@ const getQueryID = async () => {
       console.log('queryID existing query');
       console.log(queryID);
     } else {
-      var insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+      const insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
       await db.pool.query(insertSQL, function(err, result) {
         if (err) {
           console.log('Error in query: ');
           console.log(err);
         }
-
         queryID = result.rows[0].id;
       });
     }
@@ -45,7 +44,7 @@ module.exports = {
       if (userID) {
         const queryID = await getQueryID();
         var recentQueryExists = false;
-        querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
+        const querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         console.log(querySQL)
         await db.pool.query(querySQL, function(err, result) {
           console.log('47 vars');
@@ -65,7 +64,7 @@ module.exports = {
         });
 
         if (!recentQueryExists) {
-          insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
+          const insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
           await db.pool.query(insertSQL, function(err, result) {
             if (err) {
               console.log(63);
@@ -102,7 +101,7 @@ module.exports = {
     }
   },
   top_queries: async (req, res, next) => {
-    var querySQL =
+    const querySQL =
       'SELECT s.query_id, q.text, s.count FROM ( SELECT query_id, count(*) AS count FROM search GROUP BY query_id ORDER BY count DESC) s JOIN query q ON s.query_id = q.id';
     db.pool.query(querySQL, function(err, result) {
       if (err) {
