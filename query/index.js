@@ -5,8 +5,9 @@ const Twitter = require('../config/twitter');
 
 module.exports = {
   query: async (req, res, next) => {
-    const query = req.query.q;
+    let query = req.query.q;
     const userID = req.query.user_id;
+    query = query.toLowerCase();
 
     if (query) {
       console.log('userID');
@@ -40,11 +41,11 @@ module.exports = {
         })
 
         var recentQueryExists = false;
-        querySQL = `SELECT * FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER BY time DESC`;
-        console.log('47 vars');
-        console.log(userID);
-        console.log(queryID);
+        querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         await db.pool.query(querySQL, function(err, result) {
+          console.log('47 vars');
+          console.log(userID);
+          console.log(queryID);
           if (err) {
             console.log(47);
             console.log('Error in query: ');
