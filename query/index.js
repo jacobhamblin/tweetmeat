@@ -38,7 +38,7 @@ module.exports = {
         });
 
         var recentQueryExists = false;
-        querySQL = `SELECT id, query_id, user_id, time FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER_BY time DESC`;
+        querySQL = `SELECT * FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER BY time DESC`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
             console.log('Error in query: ');
@@ -89,4 +89,7 @@ module.exports = {
       }
     }
   },
+  top_queries: async (req, res, next) => {
+
+  }
 };
