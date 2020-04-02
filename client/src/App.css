@@ -1,4 +1,4 @@
-html, body {
+html, body, #root {
   height: 100%;
 }
 
@@ -8,7 +8,8 @@ html, body {
   flex-flow: row nowrap;
   justify-content: space-between;
   white-space: pre;
-  min-height: 100vh;
+  min-height: 100%;
+  position: relative;
 }
 .App code {
   margin: 2em;
