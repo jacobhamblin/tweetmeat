@@ -28,7 +28,7 @@ function Top({ updateCount }) {
   };
   useEffect(() => {
     fetchTopQueries();
-  });
+  }, [updateCount]);
   return (
     <div className="top-queries">
       {top.length ? <h2>Top Queries</h2> : null}
