@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import './Top.css';
 import _sortBy from 'lodash/sortBy';
 
@@ -9,6 +9,9 @@ export default class Top extends Component {
   componentDidMount() {
     this.fetchTopQueries();
   }
+  useEffect(() => {
+    this.fetchTopQueries();
+  })
   fetchTopQueries = async () => {
     let url = '/api/top_queries';
     const response = await fetch(url);

@@ -7,6 +7,7 @@ import './App.css';
 class Homepage extends Component {
   state = {
     query: '',
+    calledFetch: 0,
     tweets: [],
     queryParams: { get: () => {} },
     login: false,
@@ -57,6 +58,7 @@ class Homepage extends Component {
   };
   fetchTweets = async event => {
     if (event) event.preventDefault();
+
     const { user, query } = this.state;
     const data = {};
     if (query) data.q = query;
@@ -66,7 +68,10 @@ class Homepage extends Component {
     if (queryString) url += '?' + queryString;
     const response = await fetch(url);
     const tweets = await response.json();
-    this.setState({ tweets: tweets.statuses });
+    this.setState({
+      tweets: tweets.statuses,
+      calledFetch: this.state.calledFetch + 1,
+    });
   };
   renderTweets = () => {
     const { tweets } = this.state;
@@ -114,7 +119,7 @@ class Homepage extends Component {
               Log in
             </a>
           )}
-          <Top />
+          <Top updateCount={this.state.calledFetch}/>
         </div>
 
         <Login
