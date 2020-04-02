@@ -87,8 +87,8 @@ class Homepage extends Component {
     const { login, user } = this.state;
     return (
       <div className="App">
-        <div className="column" />
-        <div className="column main">
+        <div className="col-xs-12 col-sm-3 column" />
+        <div className="col-xs-12 col-sm-6 column">
           <form onSubmit={this.fetchTweets}>
             <label>Query</label>
             <input
@@ -101,18 +101,16 @@ class Homepage extends Component {
           </form>
           {this.renderTweets()}
         </div>
-        <div className="column right">
+        <div className="col-xs-12 col-sm-3 column right">
           {this.state.loggedIn ? (
             <div>
-              <div>
-                <div>Welcome, {user.username}</div>
-                <a onClick={this.logout}>Log out</a>
-              </div>
-              <Top />
+              <div>Welcome, {user.username}</div>
+              <a onClick={this.logout} className='login'>Log out</a>
             </div>
           ) : (
-            <a onClick={this.toggleLogin}>Log in</a>
+            <a onClick={this.toggleLogin} className='login'>Log in</a>
           )}
+          <Top />
         </div>
 
         <Login

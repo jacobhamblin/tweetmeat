@@ -93,7 +93,7 @@ class Login extends Component {
   renderCreate() {
     return (
       <form onSubmit={this.create} className="login">
-        <a class="icon-close" onClick={this.props.close}>
+        <a className="icon-close" onClick={this.props.close}>
           x
         </a>
         <Input
@@ -120,10 +120,10 @@ class Login extends Component {
           value={this.state.confirm}
           onChange={this.handleChange}
         />
-        <div class="input-container">
+        <div className="input-container">
           <button type="submit">Submit</button>
         </div>
-        <div class="input-container">
+        <div className="input-container">
           <a onClick={this.toggleCreate}>Login</a>
         </div>
       </form>
@@ -132,7 +132,7 @@ class Login extends Component {
   renderLogin() {
     return (
       <form onSubmit={this.login} className="login">
-        <a class="icon-close" onClick={this.props.close}>
+        <a className="icon-close" onClick={this.props.close}>
           x
         </a>
         <Input
@@ -151,10 +151,10 @@ class Login extends Component {
           value={this.state.password}
           onChange={this.handleChange}
         />
-        <div class="input-container">
+        <div className="input-container">
           <button type="submit">Login</button>
         </div>
-        <div class="input-container">
+        <div className="input-container">
           <a onClick={this.toggleCreate}>Create new account</a>
         </div>
       </form>

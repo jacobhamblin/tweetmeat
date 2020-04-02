@@ -1,0 +1,16 @@
+.top-queries {
+  padding: 1em 0;
+}
+
+.queries {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.query {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: .5em 1em;
+}

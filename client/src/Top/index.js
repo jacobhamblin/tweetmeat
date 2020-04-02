@@ -7,7 +7,6 @@ export default class Top extends Component {
     top: [],
   }
   componentDidMount() {
-    this.fetchTopQueries();
   }
   fetchTopQueries = async () => {
     let url = '/api/top_queries';
@@ -22,7 +21,7 @@ export default class Top extends Component {
     return (
       <div className='query'>
         <div className='count'>{query.count}</div>
-        <div className='name'>{query.name}</div>
+        <div className='name'>{query.text}</div>
       </div>
     )
   }
@@ -30,10 +29,13 @@ export default class Top extends Component {
     return this.state.top.map(q => this.renderQuery(q))
   }
   render() {
+    console.log('hello from top')
     return (
       <div className='top-queries'>
-        Top Queries
-        {this.renderTopQueries()}
+        <h2>Top Queries</h2>
+        <div className='queries'>
+          {this.renderTopQueries()}
+        </div>
       </div>
     )
   }
