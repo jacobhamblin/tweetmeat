@@ -85,9 +85,9 @@ module.exports = {
     db.pool
       .query(querySQL)
       .then(result => {
-        res.status(200)
-        res.json(result.rows)
+        res.status(200);
+        res.json(result.rows);
       })
-      .catch(e => console.error(e))
+      .catch(e => console.error(e));
   },
 };

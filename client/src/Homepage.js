@@ -45,7 +45,7 @@ class Homepage extends Component {
     this.props.showSnackbar(message);
   };
   setUser = ({ id, username }) => {
-    this.setState({user: { id, username }});
+    this.setState({ user: { id, username } });
   };
   toggleLogin = () => {
     const { login } = this.state;
@@ -78,11 +78,9 @@ class Homepage extends Component {
     return (
       <div>
         <h1>tweets</h1>
-        <div className='tweets-container'>
-          {renderedTweets}
-        </div>
+        <div className="tweets-container">{renderedTweets}</div>
       </div>
-      );
+    );
   };
   render() {
     const { showSnackbar } = this.props;
@@ -107,10 +105,14 @@ class Homepage extends Component {
           {this.state.loggedIn ? (
             <div>
               <div>Welcome, {user.username}</div>
-              <a onClick={this.logout} className='login'>Log out</a>
+              <a onClick={this.logout} className="login">
+                Log out
+              </a>
             </div>
           ) : (
-            <a onClick={this.toggleLogin} className='login'>Log in</a>
+            <a onClick={this.toggleLogin} className="login">
+              Log in
+            </a>
           )}
           <Top />
         </div>
