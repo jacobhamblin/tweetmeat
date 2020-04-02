@@ -44,6 +44,7 @@ module.exports = {
         querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         db.pool.query(querySQL, function(err, result) {
           if (err) {
+            console.log(47)
             console.log('Error in query: ');
             console.log(err);
           }
@@ -59,6 +60,7 @@ module.exports = {
           insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
           db.pool.query(insertSQL, function(err, result) {
             if (err) {
+              console.log(63)
               console.log('Error in query: ');
               console.log(err);
             }
