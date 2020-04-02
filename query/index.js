@@ -22,7 +22,10 @@ module.exports = {
 
           if (result.rows.length > 0) {
             const first = result.rows[0];
+            console.log(first)
             queryID = first.id;
+            console.log('queryID existing query')
+            console.log(queryID)
           } else {
             let insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
             db.pool.query(insertSQL, function(err, result) {
@@ -90,6 +93,29 @@ module.exports = {
     }
   },
   top_queries: async (req, res, next) => {
+        let querySQL = `SELECT id, text FROM query WHERE text='${query}'`;
+        db.pool.query(querySQL, function(err, result) {
+          if (err) {
+            console.log('Error in query: ');
+            console.log(err);
+          }
+
+          if (result.rows.length > 0) {
+            const first = result.rows[0];
+            queryID = first.id;
+          } else {
+            let insertSQL = `INSERT INTO query (text) VALUES ('${query}') RETURNING id;`;
+            db.pool.query(insertSQL, function(err, result) {
+              if (err) {
+                console.log('Error in query: ');
+                console.log(err);
+              }
+
+              queryID = result.rows[0].id;
+            });
+
+          }
+        });
 
   }
 };
