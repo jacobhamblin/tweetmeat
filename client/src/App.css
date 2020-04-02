@@ -64,6 +64,7 @@ a {
 
 .tweets-container {
   position: relative;
+  overflow: hidden;
 }
 
 .tweets-container .tweet {

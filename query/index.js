@@ -43,8 +43,8 @@ module.exports = {
               console.log('time since user made this query');
               console.log(moment(first.time).diff(moment(), 'hours'));
               if (moment(first.time).diff(moment(), 'hours') > -1) return false;
-              return true;
             }
+            return true;
           })
           .catch(e => console.error(e));
         if (needToInsert) {
