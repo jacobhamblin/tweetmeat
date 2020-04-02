@@ -38,38 +38,39 @@ module.exports = {
             });
 
           }
-        });
 
-        var recentQueryExists = false;
-        querySQL = `SELECT * FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER BY time DESC`;
-        console.log('47 vars')
-        console.log(userID)
-        console.log(queryID)
-        db.pool.query(querySQL, function(err, result) {
-          if (err) {
-            console.log(47)
-            console.log('Error in query: ');
-            console.log(err);
-          }
-
-          if (result.rows.length > 0) {
-            const first = result.rows[0];
-            if (moment(first.time).diff(moment(), 'hours') < 1) recentQueryExists = true;
-          }
-        });
-
-
-        if (!recentQueryExists) {
-          insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
-          db.pool.query(insertSQL, function(err, result) {
+          var recentQueryExists = false;
+          querySQL = `SELECT * FROM search WHERE user_id='${userID}' AND query_id='${queryID}' ORDER BY time DESC`;
+          console.log('47 vars')
+          console.log(userID)
+          console.log(queryID)
+          db.pool.query(querySQL, function(err, result) {
             if (err) {
-              console.log(63)
+              console.log(47)
               console.log('Error in query: ');
               console.log(err);
             }
+
+            if (result.rows.length > 0) {
+              const first = result.rows[0];
+              if (moment(first.time).diff(moment(), 'hours') < 1) recentQueryExists = true;
+            }
           });
+
+
+          if (!recentQueryExists) {
+            insertSQL = `INSERT INTO search (user_id, query_id, time) values ('${userID}', '${queryID}', to_timestamp(${Date.now()} / 1000.0))`;
+            db.pool.query(insertSQL, function(err, result) {
+              if (err) {
+                console.log(63)
+                console.log('Error in query: ');
+                console.log(err);
+              }
+            });
+          }
         }
-      }
+        });
+
 
 
       const params = {
