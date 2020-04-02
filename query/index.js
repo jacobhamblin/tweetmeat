@@ -30,12 +30,8 @@ module.exports = {
 
     if (query) {
       query = query.toLowerCase();
-      console.log('userID');
-      console.log(userID);
       if (userID) {
         const queryID = await getQueryID(query);
-        console.log('queryID');
-        console.log(queryID);
         var needToInsert = true;
         const querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
         console.log(querySQL);
@@ -44,7 +40,10 @@ module.exports = {
           .then(res => {
             if (res.rows.length > 0) {
               const first = res.rows[0];
+              console.log('time since user made this query')
+              console.log(moment(first.time).diff(moment(), 'hours'))
               if (moment(first.time).diff(moment(), 'hours') < 1) return false;
+              return true;
             }
           })
           .catch(e => console.error(e));
