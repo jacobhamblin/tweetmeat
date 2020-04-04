@@ -75,41 +75,13 @@ class Homepage extends Component {
       calledFetch: this.state.calledFetch + 1,
     });
   };
-  renderTweets = () => {
-    const { tweets } = this.state;
-    if (!tweets || !tweets.length) return;
-    let renderedTweets = [];
-    tweets.forEach(tweet => {
-      renderedTweets.push(<p className="tweet">{tweet.text}</p>);
-    });
-    return (
-      <div>
-        <h1>tweets</h1>
-        <div className="tweets-container">{renderedTweets}</div>
-      </div>
-    );
-  };
   render() {
     const { showSnackbar } = this.props;
     const { login, user } = this.state;
     return (
       <div className="App">
         <Scene />
-        <div className="col-xs-12 col-sm-3 column" />
-        <div className="col-xs-12 col-sm-6 column">
-          <form onSubmit={this.fetchTweets}>
-            <label>Query</label>
-            <input
-              type="text"
-              name="query"
-              value={this.state.query}
-              onChange={this.handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          {this.renderTweets()}
-        </div>
-        <div className="col-xs-12 col-sm-3 column right">
+        <div className="col-xs-12 col-sm-3 offset-sm-9 column right">
           {this.state.loggedIn ? (
             <div>
               <div>Welcome, {user.username}</div>
@@ -122,6 +94,16 @@ class Homepage extends Component {
               Log in
             </a>
           )}
+          <form onSubmit={this.fetchTweets}>
+            <label>Query</label>
+            <input
+              type="text"
+              name="query"
+              value={this.state.query}
+              onChange={this.handleChange}
+            />
+            <button type="submit">Submit</button>
+          </form>
           <Top updateCount={this.state.calledFetch}/>
         </div>
 
