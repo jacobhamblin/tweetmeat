@@ -65,6 +65,8 @@ module.exports = {
     } else {
       try {
         Twitter.get('statuses/sample', (error, tweets, response) => {
+          console.log('response');
+          console.log(response);
           console.log('server, callback');
           console.log(tweets);
           res.json(tweets);
