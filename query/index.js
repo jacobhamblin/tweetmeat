@@ -34,14 +34,11 @@ module.exports = {
         const queryID = await getQueryID(query);
         var needToInsert = true;
         const querySQL = `SELECT * FROM search WHERE user_id=${userID} AND query_id=${queryID} ORDER BY time DESC`;
-        console.log(querySQL);
         needToInsert = await db.pool
           .query(querySQL)
           .then(res => {
             if (res.rows.length > 0) {
               const first = res.rows[0];
-              console.log('time since user made this query');
-              console.log(moment(first.time).diff(moment(), 'hours'));
               if (moment(first.time).diff(moment(), 'hours') > -1) return false;
             }
             return true;
@@ -56,6 +53,7 @@ module.exports = {
       const params = {
         q: query,
         response_type: 'popular',
+        count: 100,
       };
       try {
         Twitter.get('search/tweets', params, (error, tweets, response) => {
