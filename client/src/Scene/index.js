@@ -42,15 +42,7 @@ class Scene extends Component {
       let grayscale = [params[i][0][0], 0, params[i][0][2]];
       let modifier = 1;
 
-      // let color = [
-        // params[i][0][0],
-        // modifier * params[i][0][1],
-        // params[i][0][2]
-      // ];
-
-      // let h = ( 360 * ( color[0] + this.counters.altTime ) % 360 ) / 360;
       material.opacity = Math.abs(Math.cos((i * 10) + this.counters.altTime));
-      // material.color.setHSL( h, color[1], color[2] );
     }
   }
 
@@ -114,15 +106,7 @@ class Scene extends Component {
     }
   }
 
-  // rotateMaterialOpacity = () => {
-    // for (let i = 0; i < this.objects.materials.length; i++) {
-      // let material = this.objects.materials[i];
-      // material.opacity 
-    // }
-  // }
-
   sceneSetup = () => {
-    // get container dimensions and use them for scene sizing
     const width = this.el.clientWidth;
     const height = this.el.clientHeight;
 
@@ -149,9 +133,6 @@ class Scene extends Component {
   };
 
   startAnimationLoop = () => {
-    // this.cube.rotation.x += 0.01;
-    // this.cube.rotation.y += 0.01;
-
     this.incrementCounters();
     this.rotateParticles();
     this.changeParticleColors();
