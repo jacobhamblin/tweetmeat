@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { stringify } from 'query-string';
 import Login from './Login';
 import Top from './Top';
+import Scene from './Scene';
 import './App.css';
 
 class Homepage extends Component {
@@ -93,6 +94,7 @@ class Homepage extends Component {
     const { login, user } = this.state;
     return (
       <div className="App">
+        <Scene />
         <div className="col-xs-12 col-sm-3 column" />
         <div className="col-xs-12 col-sm-6 column">
           <form onSubmit={this.fetchTweets}>
