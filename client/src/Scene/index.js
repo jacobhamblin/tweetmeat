@@ -54,7 +54,7 @@ class Scene extends Component {
     this.objects.tweets = [];
     for (let i = 0; i < tweets.length; i++) {
       const text = tweets[i].text;
-      const url = tweets[i].url;
+      const url = `https://twitter.com/${tweets[i].user.screen_name}/status/${tweets[i].id_str}`;
       const size = 40;
       const tweet = new TextSprite({
         text: tweets[i].text,
@@ -67,6 +67,8 @@ class Scene extends Component {
       tweet.position.y = Math.random() * 1000 - 500;
       tweet.position.z = Math.random() * 1000 - 500;
       tweet.sway = { x: Math.random(), y: Math.random(), z: Math.random() };
+      tweet.url = url;
+      tweet.userData.url = url;
       this.scene.add(tweet);
       this.objects.tweets.push(tweet);
     }
@@ -99,17 +101,13 @@ class Scene extends Component {
       this.scene.children,
     );
 
-    let tempIntersection;
-    tempIntersection =
-      intersects[0] && intersects[0].object === this.objects.obj1[0]
-        ? true
-        : false;
+    if (!intersects[0]) this.raycaster.intersection = undefined;
+    let tempIntersection = intersects[0] && intersects[0].object;
 
     if (this.raycaster.intersection !== tempIntersection) {
       this.raycaster.intersection = tempIntersection;
       if (tempIntersection) {
         document.body.style.cursor = 'pointer';
-        this.counters.lastHovered = Date.now() * 0.001;
       } else {
         document.body.style.cursor = 'initial';
       }
@@ -215,6 +213,7 @@ class Scene extends Component {
 
   startAnimationLoop = () => {
     this.incrementCounters();
+    this.handleIntersection();
     this.rotateParticles();
     this.changeParticleColors();
     this.swayTweets();
