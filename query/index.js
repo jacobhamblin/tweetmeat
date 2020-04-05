@@ -60,20 +60,32 @@ module.exports = {
           res.json(tweets);
         });
       } catch (err) {
+        console.error(err);
         next(err);
       }
     } else {
+      const sampleQueries = [
+        'covid-19',
+        '#generalconference',
+        'bae',
+        'trump',
+        'apple',
+        'linux',
+        'bitcoin',
+      ];
+      const randomQuery =
+        sampleQueries[Math.floor(Math.random() * sampleQueries.length)];
+      const params = {
+        q,
+        response_type: 'popular',
+        count: 100,
+      };
       try {
-        Twitter.get('statuses/sample', (error, tweets, response) => {
-          console.log('response');
-          console.log(response);
-          console.log('server, callback');
-          console.log(tweets);
+        Twitter.get('search/tweets', params, (error, tweets, response) => {
           res.json(tweets);
         });
       } catch (err) {
-        console.log('server, error');
-        console.log(err);
+        console.error(err);
         next(err);
       }
     }
