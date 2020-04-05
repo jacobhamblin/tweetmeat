@@ -39,6 +39,11 @@ form button {
   background-color: rgba(255,255,255,.2);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
+form input {
+  padding-left: .5em;
+  padding-right: .5em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
 input {
   font-size: 1.5em;
   margin-top: 1em;
@@ -54,7 +59,7 @@ input:selected {
   padding: 2em;
   padding-top: 4em;
   min-height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .right {

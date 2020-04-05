@@ -73,8 +73,7 @@ module.exports = {
         'linux',
         'bitcoin',
       ];
-      const randomQuery =
-        sampleQueries[Math.floor(Math.random() * sampleQueries.length)];
+      const q = sampleQueries[Math.floor(Math.random() * sampleQueries.length)];
       const params = {
         q,
         response_type: 'popular',
