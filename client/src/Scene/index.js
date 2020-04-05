@@ -33,6 +33,7 @@ class Scene extends Component {
     this.startAnimationLoop();
     window.addEventListener('resize', this.handleWindowResize);
     window.addEventListener('mousemove', this.handleMouseMove, false);
+    window.addEventListener('click', this.maybeOpenLink, false);
   }
 
   componentDidUpdate(prevProps) {
@@ -42,6 +43,7 @@ class Scene extends Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowResize);
     window.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('click', this.maybeOpenLink, false);
     window.cancelAnimationFrame(this.requestID);
     this.controls.dispose();
   }
@@ -101,17 +103,15 @@ class Scene extends Component {
       this.scene.children,
     );
 
-    if (!intersects[0]) this.raycaster.intersection = undefined;
+    if (!intersects[0]) {
+      this.raycaster.intersection = undefined;
+      document.body.style.cursor = 'initial';
+    } else {
+      document.body.style.cursor = 'pointer';
+    }
     let tempIntersection = intersects[0] && intersects[0].object;
 
-    if (this.raycaster.intersection !== tempIntersection) {
-      this.raycaster.intersection = tempIntersection;
-      if (tempIntersection) {
-        document.body.style.cursor = 'pointer';
-      } else {
-        document.body.style.cursor = 'initial';
-      }
-    }
+    if (this.raycaster.intersection !== tempIntersection) this.raycaster.intersection = tempIntersection;
   };
 
   handleWindowResize = () => {
@@ -127,6 +127,12 @@ class Scene extends Component {
     event.preventDefault();
     this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+  };
+
+  maybeOpenLink = event => {
+    if (!this.raycaster.intersection) return;
+    event.preventDefault();
+    window.open(this.raycaster.intersection.url, '_blank');
   };
 
   incrementCounters = () => {
