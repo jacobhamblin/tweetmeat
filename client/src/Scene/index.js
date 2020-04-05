@@ -141,7 +141,7 @@ class Scene extends Component {
     if (!this.raycaster.intersection) return;
     const loginModal = document.querySelector('.modal-bg');
     const rightCol = document.querySelector('.column.right');
-    if (isHovered(loginModal) || isHovered(rightCol)) return;
+    if (this.isHovered(loginModal) || this.isHovered(rightCol)) return;
     event.preventDefault();
     window.open(this.raycaster.intersection.url, '_blank');
   };
