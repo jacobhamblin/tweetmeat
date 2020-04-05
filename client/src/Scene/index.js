@@ -141,6 +141,9 @@ class Scene extends Component {
 
   maybeOpenLink = event => {
     if (!this.raycaster.intersection) return;
+    const loginModal = document.querySelector('.modal-bg');
+    const rightCol = document.querySelector('.column.right');
+    if (this.isHovered(loginModal) || this.isHovered(rightCol)) return;
     event.preventDefault();
     window.open(this.raycaster.intersection.url, '_blank');
   };
