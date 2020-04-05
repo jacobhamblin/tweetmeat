@@ -94,3 +94,8 @@ label {
 .tweets-container .tweet {
   max-width: 100%;
 }
+
+.welcome {
+  color: #fff;
+  margin-bottom: 1em;
+}

@@ -83,7 +83,7 @@ class Homepage extends Component {
         <div className="col-xs-12 col-sm-2 offset-sm-10 column right">
           {this.state.loggedIn ? (
             <div>
-              <div>Welcome, {user.username}</div>
+              <div className="welcome">Welcome, {user.username}</div>
               <a onClick={this.logout} className="login">
                 Log out
               </a>
