@@ -57,9 +57,8 @@ class Scene extends Component {
     for (let i = 0; i < tweets.length; i++) {
       const text = tweets[i].text;
       const url = `https://twitter.com/${tweets[i].user.screen_name}/status/${tweets[i].id_str}`;
-      const size = 40;
       const tweet = new TextSprite({
-        text: tweets[i].text,
+        text,
         fontFamily: 'Arial, Helvetica, sans-serif',
         fontSize: 8,
         fillColor: '#ffbbff',
@@ -71,29 +70,29 @@ class Scene extends Component {
       tweet.sway = { x: Math.random(), y: Math.random(), z: Math.random() };
       tweet.url = url;
       tweet.userData.url = url;
+      tweet.material.opacity = 0;
       this.scene.add(tweet);
       this.objects.tweets.push(tweet);
     }
+
   };
 
-  changeParticleColors = () => {
+  changeParticleOpacity = () => {
     for (let i = 0; i < this.objects.materials.length; i++) {
-      let mats = this.objects.materials;
-      let material = this.objects.materials[i];
-
-      let params = this.objects.particlesParameters;
-      let grayscale = [params[i][0][0], 0, params[i][0][2]];
-      let modifier = 1;
-
-      material.opacity = Math.abs(Math.cos(i * 10 + this.counters.altTime));
+      this.objects.materials[i].opacity = Math.abs(Math.cos(i * 10 + this.counters.altTime));
     }
   };
 
-  swayTweets = () => {
+  tweekTweets = () => {
     for (let i = 0; i < this.objects.tweets.length; i++) {
       const tweet = this.objects.tweets[i];
       tweet.position.x += Math.cos(this.counters.time * tweet.sway.x) / 50;
       tweet.position.y += Math.sin(this.counters.time * tweet.sway.y) / 50;
+      if (tweet.material.opacity < 1) {
+        if (i % 2) tweet.material.opacity += .0001;
+        if (i % 5) tweet.material.opacity += .002;
+        if (i % 7) tweet.material.opacity += .001;
+      }
     }
   };
 
@@ -221,8 +220,8 @@ class Scene extends Component {
     this.incrementCounters();
     this.handleIntersection();
     this.rotateParticles();
-    this.changeParticleColors();
-    this.swayTweets();
+    this.changeParticleOpacity();
+    this.tweekTweets();
 
     this.renderer.render(this.scene, this.camera);
     this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
