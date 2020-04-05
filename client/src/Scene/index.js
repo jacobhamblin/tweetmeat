@@ -35,6 +35,10 @@ class Scene extends Component {
     window.addEventListener('mousemove', this.handleMouseMove, false);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.tweets !== this.props.tweets) this.prepTweets(this.props.tweets);
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowResize);
     window.removeEventListener('mousemove', this.handleMouseMove);
@@ -62,13 +66,7 @@ class Scene extends Component {
       tweet.position.x = Math.random() * 1000 - 500;
       tweet.position.y = Math.random() * 1000 - 500;
       tweet.position.z = Math.random() * 1000 - 500;
-      const params = {
-        font: this.font,
-        height: 12,
-        size,
-        position: (0, 0, 50),
-      };
-      tweet.sway = {x: Math.random(), y: Math.random(), z: Math.random()};
+      tweet.sway = { x: Math.random(), y: Math.random(), z: Math.random() };
       this.scene.add(tweet);
       this.objects.tweets.push(tweet);
     }
@@ -90,10 +88,10 @@ class Scene extends Component {
   swayTweets = () => {
     for (let i = 0; i < this.objects.tweets.length; i++) {
       const tweet = this.objects.tweets[i];
-      tweet.position.x += (Math.cos(this.counters.time * tweet.sway.x) / 50)
-      tweet.position.y += (Math.sin(this.counters.time * tweet.sway.y) / 50)
+      tweet.position.x += Math.cos(this.counters.time * tweet.sway.x) / 50;
+      tweet.position.y += Math.sin(this.counters.time * tweet.sway.y) / 50;
     }
-  }
+  };
 
   handleIntersection = () => {
     this.raycaster.raycaster.setFromCamera(this.mouse, this.camera);
@@ -131,11 +129,6 @@ class Scene extends Component {
     event.preventDefault();
     this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-  };
-
-  loadFont = () => {
-    var loader = new THREE.FontLoader();
-    loader.load('fonts/helvetiker_regular.typeface.json', response => response);
   };
 
   incrementCounters = () => {
@@ -197,7 +190,6 @@ class Scene extends Component {
     const width = this.el.clientWidth;
     const height = this.el.clientHeight;
 
-    this.font = this.loadFont();
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
       75,
@@ -217,6 +209,7 @@ class Scene extends Component {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
+    this.renderer.setClearColor(0x222222);
     this.el.appendChild(this.renderer.domElement); // mount using React ref
   };
 
@@ -231,7 +224,6 @@ class Scene extends Component {
   };
 
   render() {
-    if (this.props.tweets) this.prepTweets(this.props.tweets);
     return <div className="scene" ref={ref => (this.el = ref)} />;
   }
 }

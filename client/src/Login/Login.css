@@ -3,7 +3,7 @@
 }
 
 .modal-bg.active {
-  background: #fff;
+  background: #333;
   height: 100%;
   width: 100%;
   position: absolute;
@@ -22,12 +22,20 @@ form.login {
   padding: 1rem 2rem;
   font-size: 1.5em;
   flex-grow: 2;
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+  line-height: 1.5em;
+}
+
+.login button:selected {
+  outline: none;
 }
 
 .icon-close {
   width: 50px;
   height: 50px;
-  border: 2px solid black;
+  border: 2px solid #fff;
   border-radius: 50%;
   text-align: center;
   font-size: 20px;

@@ -83,7 +83,7 @@ class Homepage extends Component {
     return (
       <div className="App">
         <Scene tweets={tweets} />
-        <div className="col-xs-12 col-sm-3 offset-sm-9 column right">
+        <div className="col-xs-12 col-sm-2 offset-sm-10 column right">
           {this.state.loggedIn ? (
             <div>
               <div>Welcome, {user.username}</div>
