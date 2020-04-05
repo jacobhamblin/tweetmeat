@@ -68,10 +68,10 @@ module.exports = {
         'covid-19',
         '#generalconference',
         'bae',
-        'trump',
         'apple',
         'linux',
         'bitcoin',
+        'magic',
       ];
       const q = sampleQueries[Math.floor(Math.random() * sampleQueries.length)];
       const params = {

@@ -56,7 +56,7 @@ class Scene extends Component {
     }
     this.objects.tweets = [];
     for (let i = 0; i < tweets.length; i++) {
-      const text = tweets[i].text;
+      const text = tweets[i].text.match(/.{1,50}/g).join('\n');
       const url = `https://twitter.com/${tweets[i].user.screen_name}/status/${
         tweets[i].id_str
       }`;
@@ -110,7 +110,9 @@ class Scene extends Component {
       this.scene.children,
     );
 
-    if (!intersects[0]) {
+    const loginModal = document.querySelector('.modal-bg');
+    const rightCol = document.querySelector('.column.right');
+    if (!intersects[0] || this.isHovered(loginModal) || this.isHovered(rightCol)) {
       this.raycaster.intersection = undefined;
       document.body.style.cursor = 'initial';
     } else {
@@ -139,9 +141,6 @@ class Scene extends Component {
 
   maybeOpenLink = event => {
     if (!this.raycaster.intersection) return;
-    const loginModal = document.querySelector('.modal-bg');
-    const rightCol = document.querySelector('.column.right');
-    if (this.isHovered(loginModal) || this.isHovered(rightCol)) return;
     event.preventDefault();
     window.open(this.raycaster.intersection.url, '_blank');
   };
