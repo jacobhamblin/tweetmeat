@@ -77,10 +77,12 @@ class Homepage extends Component {
   };
   render() {
     const { showSnackbar } = this.props;
-    const { login, user } = this.state;
+    const { login, tweets, user } = this.state;
+    console.log('tweets, homepage')
+    console.log(tweets)
     return (
       <div className="App">
-        <Scene />
+        <Scene tweets={tweets} />
         <div className="col-xs-12 col-sm-3 offset-sm-9 column right">
           {this.state.loggedIn ? (
             <div>
