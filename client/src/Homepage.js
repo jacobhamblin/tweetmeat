@@ -77,8 +77,6 @@ class Homepage extends Component {
   render() {
     const { showSnackbar } = this.props;
     const { login, tweets, user } = this.state;
-    console.log('tweets, homepage')
-    console.log(tweets)
     return (
       <div className="App">
         <Scene tweets={tweets} />
@@ -96,16 +94,16 @@ class Homepage extends Component {
             </a>
           )}
           <form onSubmit={this.fetchTweets}>
-            <label>Query</label>
             <input
               type="text"
               name="query"
               value={this.state.query}
               onChange={this.handleChange}
+              placeholder="query"
             />
             <button type="submit">Submit</button>
           </form>
-          <Top updateCount={this.state.calledFetch}/>
+          <Top updateCount={this.state.calledFetch} />
         </div>
 
         <Login

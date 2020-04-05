@@ -37,7 +37,8 @@ class Scene extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.tweets !== this.props.tweets) this.prepTweets(this.props.tweets);
+    if (prevProps.tweets !== this.props.tweets)
+      this.prepTweets(this.props.tweets);
   }
 
   componentWillUnmount() {
@@ -56,7 +57,9 @@ class Scene extends Component {
     this.objects.tweets = [];
     for (let i = 0; i < tweets.length; i++) {
       const text = tweets[i].text;
-      const url = `https://twitter.com/${tweets[i].user.screen_name}/status/${tweets[i].id_str}`;
+      const url = `https://twitter.com/${tweets[i].user.screen_name}/status/${
+        tweets[i].id_str
+      }`;
       const tweet = new TextSprite({
         text,
         fontFamily: 'Arial, Helvetica, sans-serif',
@@ -74,13 +77,18 @@ class Scene extends Component {
       this.scene.add(tweet);
       this.objects.tweets.push(tweet);
     }
-
   };
 
   changeParticleOpacity = () => {
     for (let i = 0; i < this.objects.materials.length; i++) {
-      this.objects.materials[i].opacity = Math.abs(Math.cos(i * 10 + this.counters.altTime));
+      this.objects.materials[i].opacity = Math.abs(
+        Math.cos(i * 10 + this.counters.altTime),
+      );
     }
+  };
+
+  isHovered = el => {
+    return el.parentElement.querySelector(':hover') === el;
   };
 
   tweekTweets = () => {
@@ -89,9 +97,9 @@ class Scene extends Component {
       tweet.position.x += Math.cos(this.counters.time * tweet.sway.x) / 50;
       tweet.position.y += Math.sin(this.counters.time * tweet.sway.y) / 50;
       if (tweet.material.opacity < 1) {
-        if (i % 2) tweet.material.opacity += .0001;
-        if (i % 5) tweet.material.opacity += .002;
-        if (i % 7) tweet.material.opacity += .001;
+        if (i % 2) tweet.material.opacity += 0.0001;
+        if (i % 5) tweet.material.opacity += 0.002;
+        if (i % 7) tweet.material.opacity += 0.001;
       }
     }
   };
@@ -110,7 +118,8 @@ class Scene extends Component {
     }
     let tempIntersection = intersects[0] && intersects[0].object;
 
-    if (this.raycaster.intersection !== tempIntersection) this.raycaster.intersection = tempIntersection;
+    if (this.raycaster.intersection !== tempIntersection)
+      this.raycaster.intersection = tempIntersection;
   };
 
   handleWindowResize = () => {
@@ -130,6 +139,9 @@ class Scene extends Component {
 
   maybeOpenLink = event => {
     if (!this.raycaster.intersection) return;
+    const loginModal = document.querySelector('.modal-bg');
+    const rightCol = document.querySelector('.column.right');
+    if (isHovered(loginModal) || isHovered(rightCol)) return;
     event.preventDefault();
     window.open(this.raycaster.intersection.url, '_blank');
   };
@@ -198,7 +210,7 @@ class Scene extends Component {
       75,
       window.innerWidth / window.innerHeight,
       1,
-      1000,
+      650,
     );
     this.camera.position.set(0, 0, 50);
     this.camera.lookAt(0, 0, 0);

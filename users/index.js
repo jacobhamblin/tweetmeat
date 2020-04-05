@@ -16,16 +16,15 @@ module.exports = {
     }
     const { password, username } = req.body;
 
-    const saltRounds = 10
-    const hash = bcrypt.hashSync(password, saltRounds)
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(password, saltRounds);
 
     const sql = `INSERT INTO "user" (username, password) VALUES ('${username}', '${hash}');`;
 
     db.pool.query(sql, function(err, result) {
       // If an error occurred...
       if (err) {
-        console.log('Error in query: ');
-        console.log(err);
+        console.error(err);
       }
 
       res.status(201);
