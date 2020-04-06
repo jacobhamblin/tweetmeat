@@ -66,6 +66,9 @@ input:selected {
   padding-top: 4em;
   min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 
 .right {
@@ -98,4 +101,13 @@ label {
 .welcome {
   color: #fff;
   margin-bottom: 1em;
+}
+
+.instructions {
+  color: #fff;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  align-content: flex-end;
 }

@@ -81,29 +81,36 @@ class Homepage extends Component {
       <div className="App">
         <Scene tweets={tweets} />
         <div className="col-xs-12 col-sm-2 offset-sm-10 column right">
-          {this.state.loggedIn ? (
-            <div>
-              <div className="welcome">Welcome, {user.username}</div>
-              <a onClick={this.logout} className="login">
-                Log out
+          <div className="login-container">
+            {this.state.loggedIn ? (
+              <div>
+                <div className="welcome">Welcome, {user.username}</div>
+                <a onClick={this.logout} className="login">
+                  Log out
+                </a>
+              </div>
+            ) : (
+              <a onClick={this.toggleLogin} className="login">
+                Log in
               </a>
-            </div>
-          ) : (
-            <a onClick={this.toggleLogin} className="login">
-              Log in
-            </a>
-          )}
-          <form onSubmit={this.fetchTweets}>
-            <input
-              type="text"
-              name="query"
-              value={this.state.query}
-              onChange={this.handleChange}
-              placeholder="query"
-            />
-            <button type="submit">Submit</button>
-          </form>
+            )}
+            <form onSubmit={this.fetchTweets}>
+              <input
+                type="text"
+                name="query"
+                value={this.state.query}
+                onChange={this.handleChange}
+                placeholder="query"
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
           <Top updateCount={this.state.calledFetch} />
+          <div className="instructions">
+            <p>Click and drag to look around</p>
+            <p>Click a tweet to visit it on Twitter</p>
+            <p>Scroll mousewheel to zoom in / out</p>
+          </div>
         </div>
 
         <Login
