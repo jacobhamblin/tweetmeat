@@ -111,3 +111,7 @@ label {
   align-items: flex-end;
   align-content: flex-end;
 }
+
+.login-container {
+  width: inherit;
+}
