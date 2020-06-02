@@ -109,7 +109,8 @@ class Homepage extends Component {
           <div className="instructions">
             <p>Click and drag to look around</p>
             <p>Click a tweet to visit it on Twitter</p>
-            <p>Scroll mousewheel to zoom in / out</p>
+            <p>Scroll mousewheel to zoom in/out</p>
+            <p>Increments query count 1x/hour/user</p>
           </div>
         </div>
 
