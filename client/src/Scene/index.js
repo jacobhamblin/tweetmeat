@@ -24,6 +24,7 @@ class Scene extends Component {
     ],
     tweets: [],
   };
+  cameraStartZ = 150;
   raycaster = {
     raycaster: new THREE.Raycaster(),
     intersection: false,
@@ -34,6 +35,7 @@ class Scene extends Component {
     window.addEventListener('resize', this.handleWindowResize);
     window.addEventListener('mousemove', this.handleMouseMove, false);
     window.addEventListener('click', this.maybeOpenLink, false);
+    this.counters.startZoom = Date.now();
   }
 
   componentDidUpdate(prevProps) {
@@ -139,6 +141,18 @@ class Scene extends Component {
     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   };
 
+  easeInOutSine = (progress) => -(Math.cos(Math.PI * progress) - 1) / 2;
+
+  initialCamZoom = () => {
+    const start = this.counters.startZoom;
+    if (!start) return;
+    const duration = 4; // seconds
+    if (Date.now() - start > (duration * 1000)) return;
+    const endGoalDiff = 100;
+    const progress = ((Date.now() - start) * .001) / duration;
+    this.camera.position.z = this.cameraStartZ - (endGoalDiff * this.easeInOutSine(progress));
+  };
+
   maybeOpenLink = event => {
     if (!this.raycaster.intersection) return;
     const loginModal = document.querySelector('.modal-bg');
@@ -214,9 +228,11 @@ class Scene extends Component {
       1,
       650,
     );
-    this.camera.position.set(0, 0, 50);
+    this.camera.position.set(0, 0, this.cameraStartZ);
     this.camera.lookAt(0, 0, 0);
     this.controls = new OrbitControls(this.camera, this.el);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.07;
 
     // set some distance from a cube that is located at z = 0
     // this.camera.position.z = 5;
@@ -236,6 +252,7 @@ class Scene extends Component {
     this.rotateParticles();
     this.changeParticleOpacity();
     this.tweekTweets();
+    this.initialCamZoom();
 
     this.renderer.render(this.scene, this.camera);
     this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
