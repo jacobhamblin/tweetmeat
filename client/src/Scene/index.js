@@ -35,10 +35,11 @@ class Scene extends Component {
     window.addEventListener('resize', this.handleWindowResize);
     window.addEventListener('mousemove', this.handleMouseMove, false);
     window.addEventListener('click', this.maybeOpenLink, false);
-    this.counters.startZoom = Date.now();
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.tweets.length && this.props.tweets.length)
+      this.counters.startZoom = Date.now();
     if (prevProps.tweets !== this.props.tweets)
       this.prepTweets(this.props.tweets);
   }
@@ -146,7 +147,7 @@ class Scene extends Component {
   initialCamZoom = () => {
     const start = this.counters.startZoom;
     if (!start) return;
-    const duration = 4; // seconds
+    const duration = 3; // seconds
     if (Date.now() - start > (duration * 1000)) return;
     const endGoalDiff = 100;
     const progress = ((Date.now() - start) * .001) / duration;
